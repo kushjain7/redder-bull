@@ -1,203 +1,197 @@
-# Marketing Agency Automation System
+# ⚡ Redder Bull
 
-An automated, 4-agent marketing agency for the **Indian market** — built on Claude Code, Remotion, and Pipeboard (Meta Ads MCP). Designed to run on a bare-minimum budget of **~₹16,700/mo** (~$200) including ad spend.
+**Mentos to your marketing.**
 
-> **This is a reusable template.** Clone this repo for a new product, fill `state/product-context.md`, run `setup.sh`, and start your first cycle.
+An open-source AI marketing agency you can fork, fill in your product context, and let run. Four specialized agents. One orchestrator. No subscription.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Built with Claude](https://img.shields.io/badge/Built%20with-Claude%20Code-orange)](https://claude.ai/code)
+[![Remotion](https://img.shields.io/badge/Creatives-Remotion-blueviolet)](https://remotion.dev)
 
 ---
 
-## The Team
+## What It Does
 
-| Agent | Name | What They Do |
+You give it a product. It researches the market, writes creative briefs, produces video ads (with sound design and beat sync), and launches them on Meta. Then it watches the numbers and tells you what's working.
+
+You only get involved when:
+- Something needs your approval
+- An asset needs to be provided (logo, reference video, background music)
+- Budget sign-off is required
+
+Everything else: the agents handle it.
+
+---
+
+## Meet the Team
+
+| Agent | Name | Job |
 |---|---|---|
-| Orchestrator | **Zimmer** | Agency Director — coordinates, reviews all output, manages state, reports to you |
-| Strategist | **Tanmay** | Market research, competitor analysis, creative brief writing |
-| Creative Engine | **Leonardo** | Remotion video & image ad production |
-| Media Buyer | **Mark** | Meta Ads campaign creation, launch, and daily monitoring |
+| ⚡ Orchestrator | **Zimmer** | Runs the whole thing. Reviews every deliverable. Reports to you. |
+| 🔵 Strategist | **Tanmay** | Market research, competitor analysis, creative briefs. Has opinions. |
+| 🟣 Creative Engine | **Leonardo** | Remotion video ads, full SFX, beat-synced to your background track. |
+| 🟢 Media Buyer | **Mark** | Meta Ads campaigns. Won't touch your budget without approval. |
+
+They communicate through files, not APIs. No rate limits. No walled gardens. Just markdown.
 
 ---
 
-## How It Works
+## See It in Action
 
-All 4 agents communicate exclusively through **files** — no external databases, no complex infrastructure. Everything lives in this repo.
+https://github.com/user-attachments/assets/redder-bull_intro.mp4
 
-```
-You (Human Operator)
-        │
-        ▼
-   Zimmer (Orchestrator)
-   ├── → Tanmay (Strategist) → research/ + briefs/
-   ├── → Leonardo (Creative Engine) → creatives/rendered/
-   └── → Mark (Media Buyer) → campaigns/ + Meta Ads
-```
+> *Leonardo made this video. He wants you to know that.*
 
-Each marketing cycle has **10 stages**:
-
-```
-Research → Brief → Review → Create → Review → APPROVE → Deploy → Monitor → Analyze → Iterate
- Tanmay    Tanmay   Zimmer  Leonardo   Zimmer   [YOU]     Mark      Mark     Zimmer    Zimmer
-```
-
-Stage 6 (Approve) is **mandatory human sign-off** — Mark cannot spend a single rupee without your explicit written approval.
+![Agency Flow Diagram](media/agency-flow.png)
 
 ---
 
 ## Quickstart
 
-### Prerequisites
-- Node.js v18+
-- Claude Code (Claude Pro, $20/mo)
-- Meta Business Manager account + ad account
-- Pipeboard account (free at https://pipeboard.co)
-
-### 1. Clone this template
 ```bash
-git clone https://github.com/YOUR_USERNAME/marketing-agency.git my-product-agency
-cd my-product-agency
+# Clone it
+git clone https://github.com/kushjain7/redder-bull.git
+cd redder-bull
+
+# Set up the Remotion creative environment
+chmod +x setup.sh && ./setup.sh
+
+# Configure your API keys
+cp .env.example .env
+# → Add your ANTHROPIC_API_KEY + Meta Ads credentials
+
+# Give the agency your product
+# Edit state/product-context.md — who you are, what you sell, who buys it
+
+# Start a cycle
+# Open Claude Code in this directory, then:
+# "You are Zimmer. Start Cycle 1."
 ```
 
-### 2. Run setup
+The output file is `state/outputs/current.md`. That's where Zimmer reports to you throughout the run.
+
+---
+
+## The Pipeline
+
+Every campaign runs through 11 stages:
+
+```
+1  RESEARCH     Tanmay     Market scan, competitor ads, audience data
+2  BRIEF        Tanmay     3 creative briefs + artifact list + music direction
+3  REVIEW       Zimmer     Brief QC — quality, completeness, strategy
+3.5 ASSETS      YOU        Zimmer asks for logos, footage, music — you drop the files
+4  CREATE       Leonardo   Video ads with full sound design, beat-synced to your track
+5  QC           Zimmer     30-point checklist: visual, audio, typography, pacing
+6  APPROVE      YOU        You review the creatives + approve the budget
+7  DEPLOY       Mark       Campaigns go live on Meta
+8  MONITOR      Mark       24–72 hour performance tracking
+9  ANALYZE      Zimmer     What worked, what didn't, why
+10 ITERATE      Zimmer     Learnings feed the next cycle
+```
+
+---
+
+## For Multiple Products
+
+Fork this repo once. Never touch the fork again. For each product:
+
 ```bash
-chmod +x setup.sh
-./setup.sh
+cp -r redder-bull/ product-name/
+cd product-name/
+# Edit state/product-context.md
+# Run the agency
 ```
 
-The setup script:
-- Verifies Node.js v18+
-- Initializes the Remotion project (Leonardo's workspace)
-- Adds Pipeboard MCP to Claude Code (Mark's Meta Ads connection)
-- Optionally installs additional Claude Code skills
-
-### 3. Fill your product context
-Open `state/product-context.md` and fill all 7 sections:
-- Product basics (name, URL, price in INR, differentiator)
-- Target audience (age, city tiers, languages, pain points)
-- Competitive landscape (3–5 competitors with URLs)
-- Brand voice & creative guidelines (tone, colors, do's/don'ts)
-- Campaign goals (objective, CPA target, daily budget in INR)
-- Past performance (if any)
-- Assets available (images, videos, testimonials)
-
-### 4. Start Claude Code and kick off Cycle 1
-```bash
-claude
-```
-
-Type:
-```
-Read CLAUDE.md, state/product-context.md, and skills/orchestrator/SKILL.md.
-You are Zimmer, the Orchestrator. Initialize Cycle 1, Stage 1.
-Invoke Tanmay for competitor and market research.
-```
+No cross-contamination. Each directory is a separate agency instance.
 
 ---
 
 ## Project Structure
 
 ```
-marketing-agency/
-├── CLAUDE.md                    ← Shared instructions (all agents read this)
-├── OPERATIONS.md                ← Full human-facing operations guide
-├── setup.sh                     ← One-command bootstrap script
+redder-bull/
+├── CLAUDE.md                          ← Shared instructions all agents read
+├── setup.sh                           ← One-command environment setup
+├── .env.example                       ← API key template
+│
+├── skills/
+│   ├── orchestrator/SKILL.md          ← Zimmer's full playbook
+│   ├── marketing/SKILL.md             ← Tanmay's research + brief framework
+│   ├── remotion/SKILL.md              ← Leonardo's creative + SFX guide
+│   └── meta-ads/SKILL.md             ← Mark's campaign + reporting guide
 │
 ├── state/
-│   ├── product-context.md       ← Fill this first (human fills)
-│   ├── system-log.md            ← Zimmer's running log
-│   ├── orchestrator-notes.md    ← Zimmer's cycle analyses
-│   ├── current-cycle.md         ← Current cycle number + stage checklist
-│   └── approvals/
-│       └── pending-approval.md  ← Human approval gate (required before any ad spend)
+│   ├── product-context.md             ← Your product brief (fill this first)
+│   ├── current-cycle.md               ← Which cycle, which stage
+│   ├── system-log.md                  ← Internal agent log
+│   ├── orchestrator-notes.md          ← Zimmer's notes across cycles
+│   ├── approvals/pending-approval.md  ← What needs your sign-off
+│   └── outputs/
+│       ├── current.md                 ← ⭐ The human dashboard — read this
+│       ├── FORMAT.md                  ← Zimmer's style guide
+│       └── archive/                   ← Previous cycle outputs
 │
-├── research/                    ← Tanmay's outputs
-│   ├── competitor-analysis.md
-│   ├── winning-hooks.md
-│   ├── audience-insights.md
-│   └── ad-library-data/        ← Drop competitor ad exports here
-│
-├── briefs/                      ← Tanmay → Leonardo
-│   ├── creative-brief-001.md   ← Video (Reels 9:16)
-│   ├── creative-brief-002.md   ← Static/Carousel
-│   └── creative-brief-003.md
-│
+├── research/                          ← Tanmay's market research outputs
+├── briefs/                            ← Creative briefs from Tanmay
 ├── creatives/
-│   ├── remotion-project/       ← Leonardo's Remotion codebase
-│   ├── rendered/               ← Output MP4s and PNGs (gitignored)
-│   └── review/creative-summary.md ← Leonardo's render report + Zimmer's review
-│
-├── campaigns/
-│   ├── campaign-plan-001.md    ← Mark's campaign structure (reviewed before launch)
-│   ├── live-campaigns.md       ← Active campaign IDs and status
-│   └── performance/
-│       ├── daily-report.md     ← Mark's daily metrics
-│       └── optimization-notes.md ← Mark's insights for Tanmay next cycle
-│
-└── skills/
-    ├── orchestrator/SKILL.md   ← Zimmer's identity and rules
-    ├── marketing/SKILL.md      ← Tanmay's research and brief writing
-    ├── remotion/SKILL.md       ← Leonardo's technical specs and templates
-    └── ads/SKILL.md            ← Mark's campaign creation and monitoring
+│   ├── remotion-project/              ← Leonardo's Remotion workspace
+│   └── review/                        ← Zimmer's creative QC notes
+├── campaigns/                         ← Mark's campaign plans + reports
+├── tools/
+│   └── beat-analyzer.py              ← Audio analysis engine (BPM, drop, phrase)
+└── media/
+    ├── agency-flow.png                ← Pipeline visual
+    └── redder-bull_intro.mp4          ← Agency intro video
 ```
 
 ---
 
-## Daily Commands (Quick Reference)
+## What Makes This Different
 
-| What You Want | Type in Claude Code |
-|---|---|
-| Check status | `You are Zimmer. Give me the current status of everything.` |
-| Start research | `You are Zimmer. Start Cycle [N], trigger Tanmay for research.` |
-| Write briefs | `You are Tanmay. Write creative briefs based on the latest research.` |
-| Review briefs | `You are Zimmer. Review the briefs in briefs/ for quality and completeness.` |
-| Make creatives | `You are Leonardo. Produce creatives from the approved briefs. Read skills/remotion/SKILL.md.` |
-| Review creatives | `You are Zimmer. Review the creatives in creatives/rendered/ against the briefs.` |
-| Launch campaigns | `You are Mark. Create campaigns based on the approved plan. Check approvals first.` |
-| Check performance | `You are Mark. Pull performance data and write the daily report.` |
-| End-of-cycle analysis | `You are Zimmer. Analyze this cycle's performance and prepare for the next cycle.` |
+Most AI marketing tools are black boxes. This isn't.
 
-**Resuming a session:**
-```
-Read CLAUDE.md, state/system-log.md, and state/current-cycle.md.
-You are Zimmer, the Orchestrator. Resume from where we left off.
-```
+| | Redder Bull | SaaS tools |
+|---|---|---|
+| See every decision | ✓ (all in markdown files) | ✗ |
+| Customize any agent | ✓ (edit SKILL.md) | ✗ |
+| Works with your own music/assets | ✓ | Sometimes |
+| No monthly subscription | ✓ | ✗ |
+| Beat-synced video ads | ✓ | ✗ |
+| Runs in Claude Code | ✓ | N/A |
 
 ---
 
-## Budget
+## Coming Soon
 
-| Item | Monthly Cost |
-|---|---|
-| Claude Pro | $20 (~₹1,700) |
-| Pipeboard Free | $0 |
-| Remotion (≤3 users) | $0 |
-| Meta ad spend (min) | ₹500/day (~₹15,000/mo) |
-| **All-in minimum** | **~₹16,700/mo (~$200)** |
+We're building integrations for when you want higher-quality output and are willing to pay for the tools:
 
----
+| Tool | Plugs Into | What It Unlocks |
+|---|---|---|
+| **Higgsfield AI** | Leonardo | Cinematic AI video — avatars, product reveals, motion that Remotion can't do. Real footage-quality output. |
+| **AP5** | Mark | Direct programmatic access to Meta, TikTok, and Google Ads platforms — deeper campaign control, richer reporting. |
+| **ElevenLabs** | Leonardo | AI voiceover — narration tracks synced to your video without a recording studio. |
+| **Apify** | Tanmay | Deep competitor intelligence — full Meta Ad Library scraping, landing page analysis, spend estimation. |
 
-## Using This Template for Multiple Products
-
-Each product gets its own clone of this repo:
-
-```bash
-git clone https://github.com/YOUR_USERNAME/marketing-agency.git product-a-agency
-git clone https://github.com/YOUR_USERNAME/marketing-agency.git product-b-agency
-```
-
-No cross-product contamination — each clone has its own `state/`, `research/`, `briefs/`, `creatives/`, and `campaigns/` directories. The agents (Zimmer, Tanmay, Leonardo, Mark) work only on what's in their own folder.
+The agency is free. The upgrades are optional. Fork first, upgrade when you're ready.
 
 ---
 
-## Troubleshooting
+## Requirements
 
-See `OPERATIONS.md` for full troubleshooting guide.
-
-**Most common issues:**
-- Remotion preview: `cd creatives/remotion-project/my-ads && npx remotion studio`
-- Pipeboard not connecting: `claude mcp list` → re-add if missing → restart Claude Code
-- Research too generic: add more detail to `state/product-context.md` (specific competitor URLs, real customer quotes)
-- Claude forgetting context: start every session with the resume command above
+- Claude Code (with an Anthropic API key)
+- Node.js 18+ and npm (for Leonardo's Remotion workspace)
+- Python 3.8+ (for `tools/beat-analyzer.py`)
+- ffmpeg (for audio analysis and conversion)
+- Meta Business account + access token (for Mark to run campaigns)
+- Pipeboard MCP (for Mark's Meta Ads connection)
 
 ---
 
-*Version 2.0 — Generic template. Indian market focus. Bare-minimum budget.*
-*Agents: Zimmer (Orchestrator) | Tanmay (Strategist) | Leonardo (Creative Engine) | Mark (Media Buyer)*
+## License
+
+MIT. Fork it. Ship it. Keep the credits if you're feeling generous.
+
+---
+
+*Built with Claude Code. Zimmer insisted on writing part of this README. We let him.*

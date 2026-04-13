@@ -1,9 +1,5 @@
 # Creative Brief 002
-**Written by:** Tanmay (Strategist)
-**Status:** PENDING
 
-**This brief will be:** A STATIC or CAROUSEL brief (Instagram/Facebook Feed 1:1)
+> Written by Tanmay (Strategist) during Stage 2: BRIEF
 
----
-
-*Tanmay fills this at Stage 2.*
+*Not yet started. Complete Stage 1 (Research) first.*

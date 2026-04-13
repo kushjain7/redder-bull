@@ -38,11 +38,15 @@ marketing-agency/
 ├── setup.sh                           ← One-command project bootstrap
 ├── state/
 │   ├── product-context.md             ← Founder's brain dump (human fills this)
-│   ├── system-log.md                  ← Zimmer's running log
-│   ├── orchestrator-notes.md          ← Zimmer's analysis & suggestions
-│   ├── current-cycle.md               ← Which cycle we're on, what stage
-│   └── approvals/
-│       └── pending-approval.md        ← Items waiting for human sign-off
+│   ├── system-log.md                  ← Zimmer's running internal log
+│   ├── orchestrator-notes.md          ← Zimmer's cycle analyses & learnings
+│   ├── current-cycle.md               ← Current cycle number and stage checklist
+│   ├── approvals/
+│   │   └── pending-approval.md        ← Assets requested + budget approvals
+│   └── outputs/
+│       ├── current.md                 ← ⭐ THE HUMAN DASHBOARD — always read this
+│       ├── FORMAT.md                  ← Zimmer's style guide for writing outputs
+│       └── archive/                   ← Previous cycle outputs (auto-archived)
 │
 ├── research/
 │   ├── competitor-analysis.md         ← Tanmay's output
@@ -68,6 +72,11 @@ marketing-agency/
 │       ├── daily-report.md            ← Analytics from ad platforms
 │       └── optimization-notes.md      ← What to change next
 │
+├── tools/
+│   └── beat-analyzer.py              ← Reusable music analysis for video sync
+│
+├── _archive/                          ← Past project outputs (git-ignored)
+│
 └── skills/                            ← Agent skill files
     ├── orchestrator/SKILL.md          ← Zimmer's instructions
     ├── marketing/SKILL.md             ← Tanmay's instructions
@@ -92,17 +101,18 @@ When Claude Code starts, load skills in this order:
 
 ---
 
-## THE 10-STAGE CYCLE
+## THE 11-STAGE CYCLE
 
 Each marketing cycle follows this sequence:
 
 | Stage | Name | Agent | Action |
 |---|---|---|---|
 | 1 | RESEARCH | Tanmay | Analyzes market & competitors |
-| 2 | BRIEF | Tanmay | Writes creative briefs |
-| 3 | REVIEW-1 | Zimmer | Reviews briefs for quality |
-| 4 | CREATE | Leonardo | Produces ad assets |
-| 5 | REVIEW-2 | Zimmer | Reviews creatives vs briefs |
+| 2 | BRIEF | Tanmay | Writes creative briefs (with artifact + music lists) |
+| 3 | REVIEW-1 | Zimmer | Reviews briefs for quality + completeness |
+| 3.5 | ASSETS | **Human** | Zimmer requests artifacts/music files from human |
+| 4 | CREATE | Leonardo | Produces ad creatives **with full sound design** |
+| 5 | REVIEW-2 | Zimmer | **Full QC** — visual, audio, typography, pacing |
 | 6 | **APPROVE** | **Human** | **MANDATORY — approves creatives & budget** |
 | 7 | DEPLOY | Mark | Creates campaigns & goes live |
 | 8 | MONITOR | Mark | Tracks performance (24–72 hours) |
@@ -139,10 +149,19 @@ At the start of every new Claude Code session, type:
 
 ---
 
+## THE HUMAN DASHBOARD
+
+**Always read `state/outputs/current.md`** — Zimmer keeps it updated after every stage.
+It shows what the team did, what needs your attention, and Zimmer's QC verdict.
+Previous pipeline outputs are archived at `state/outputs/archive/`.
+
+---
+
 ## QUICK COMMAND REFERENCE
 
 | What You Want | What To Type |
 |---|---|
+| See what's happening | Open `state/outputs/current.md` |
 | Check status | `You are Zimmer. Give me the current status of everything.` |
 | Start research | `You are Zimmer. Start Cycle [N], trigger Tanmay for research.` |
 | Write briefs | `You are Tanmay. Write creative briefs based on the latest research.` |
@@ -156,5 +175,6 @@ At the start of every new Claude Code session, type:
 
 ---
 
-*Version 2.0 — Generic template. Fill state/product-context.md to activate.*
-*Designed for Indian market, Claude Pro ($20/mo) + Pipeboard Free ($0) + Remotion Free ($0)*
+*Version 3.0 — Generic template with full sound design, artifact workflow, beat-sync engine, and enhanced Zimmer QC.*
+*Fill state/product-context.md to activate. Designed for Indian market.*
+*Claude Pro ($20/mo) + Pipeboard Free ($0) + Remotion Free ($0)*

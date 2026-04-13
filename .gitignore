@@ -11,6 +11,15 @@ creatives/remotion-project/my-ads/dist/
 creatives/rendered/
 !creatives/rendered/.gitkeep
 
+# User-provided assets in public/ (music, images — too large for git)
+creatives/remotion-project/my-ads/public/*.mp3
+creatives/remotion-project/my-ads/public/*.jpg
+creatives/remotion-project/my-ads/public/*.png
+creatives/remotion-project/my-ads/public/*.mp4
+
+# Archive folder (past project outputs — not part of the clean template)
+_archive/
+
 # Environment / secrets
 .env
 .env.local

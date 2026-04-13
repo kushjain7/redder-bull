@@ -1,9 +1,5 @@
 # Creative Brief 003
-**Written by:** Tanmay (Strategist)
-**Status:** PENDING
 
-**This brief will be:** Tanmay's choice of format based on research insights.
+> Written by Tanmay (Strategist) during Stage 2: BRIEF
 
----
-
-*Tanmay fills this at Stage 2.*
+*Not yet started. Complete Stage 1 (Research) first.*
