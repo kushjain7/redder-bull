@@ -170,7 +170,7 @@ We're building integrations for when you want higher-quality output and are will
 | Tool | Plugs Into | What It Unlocks |
 |---|---|---|
 | **Higgsfield AI** | Leonardo | Cinematic AI video — avatars, product reveals, motion that Remotion can't do. Real footage-quality output. |
-| **Apify + AP5** | **Tanmay, Mark** | **Tanmay:** deep competitor intel — Meta Ad Library scraping, landing pages, spend signals. **Mark:** programmatic hooks into Meta, TikTok, and Google Ads for campaign control and richer reporting. |
+| **Apify** | Tanmay | Deep competitor intelligence — Meta Ad Library scraping, landing page analysis, spend estimation, and custom data pipelines for research. |
 | **ElevenLabs** | Leonardo | AI voiceover — narration tracks synced to your video without a recording studio. |
 
 The agency is free. The upgrades are optional. Fork first, upgrade when you're ready.
