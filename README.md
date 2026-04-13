@@ -38,7 +38,8 @@ They communicate through files, not APIs. No rate limits. No walled gardens. Jus
 
 ## See It in Action
 
-https://github.com/user-attachments/assets/redder-bull_intro.mp4
+**[Watch the intro video](https://github.com/kushjain7/redder-bull/raw/main/media/redder-bull_intro.mp4)** — plays in-browser or your default player.  
+*(Same file lives at [`media/redder-bull_intro.mp4`](media/redder-bull_intro.mp4) in this repo.)*
 
 > *Leonardo made this video. He wants you to know that.*
 
@@ -169,9 +170,8 @@ We're building integrations for when you want higher-quality output and are will
 | Tool | Plugs Into | What It Unlocks |
 |---|---|---|
 | **Higgsfield AI** | Leonardo | Cinematic AI video — avatars, product reveals, motion that Remotion can't do. Real footage-quality output. |
-| **AP5** | Mark | Direct programmatic access to Meta, TikTok, and Google Ads platforms — deeper campaign control, richer reporting. |
+| **Apify + AP5** | **Tanmay, Mark** | **Tanmay:** deep competitor intel — Meta Ad Library scraping, landing pages, spend signals. **Mark:** programmatic hooks into Meta, TikTok, and Google Ads for campaign control and richer reporting. |
 | **ElevenLabs** | Leonardo | AI voiceover — narration tracks synced to your video without a recording studio. |
-| **Apify** | Tanmay | Deep competitor intelligence — full Meta Ad Library scraping, landing page analysis, spend estimation. |
 
 The agency is free. The upgrades are optional. Fork first, upgrade when you're ready.
 
