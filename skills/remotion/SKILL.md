@@ -49,9 +49,10 @@ If a background music file is provided:
 4. The beat drop should coincide with the most impactful visual moment (e.g., first agent entrance, hero reveal)
 
 If no music file is provided:
-1. Generate a high-quality background track using `public/gen_audio.py` as a template
+1. Write a Python synthesis script at `creatives/remotion-project/my-ads/public/gen_audio.py` that generates a background track using the `wave` and `math` standard library modules (no external dependencies)
 2. Match the mood/tempo from the brief's Music & SFX Direction
-3. The generated track must be rhythmic and layered (kick + snare + bass + pad minimum), NOT simple sine waves or beeps
+3. The generated track must be rhythmic and layered (kick + snare + bass + pad minimum) — use separate frequency layers summed together, NOT simple single-frequency sine waves or beeps
+4. Convert the output WAV to MP3 using: `ffmpeg -i output.wav -codec:a libmp3lame -b:a 192k bgm.mp3`
 
 ### Step 4: Create the Composition
 Create a new file in `creatives/remotion-project/my-ads/src/`:
@@ -194,7 +195,7 @@ Update `creatives/review/creative-summary.md`, then notify Zimmer.
 For syncing video to a provided music track:
 
 ```bash
-# Analyze the track
+# Analyze the track — run from the REPO ROOT (not from inside the Remotion project)
 python3 tools/beat-analyzer.py creatives/remotion-project/my-ads/public/bgm.mp3
 
 # Output tells you:

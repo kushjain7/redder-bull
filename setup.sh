@@ -6,7 +6,7 @@
 #         Leonardo (Creative Engine) | Mark (Media Buyer)
 # ============================================================
 
-set -e  # Exit on first error
+set -eu  # -e: exit on error  -u: treat unset variables as errors
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -88,33 +88,24 @@ if [ -f "$ADS_DIR/package.json" ]; then
   print_ok "Remotion project already exists at $ADS_DIR"
 else
   print_step "Creating Remotion project..."
-  print_info "This runs: npx create-video@latest my-ads --template hello-world"
+  print_info "This runs: npx create-video@latest my-ads --blank --yes"
   echo ""
 
-  cd "$REMOTION_DIR"
-  npx create-video@latest my-ads --blank --yes 2>&1 | tail -20
-  cd ../..
+  # Use a subshell so the parent working directory is never changed,
+  # even if the command inside fails.
+  (cd "$REMOTION_DIR" && npx create-video@latest my-ads --blank --yes 2>&1 | tail -20)
 
   print_ok "Remotion project created at $ADS_DIR"
 fi
 
 print_step "Installing npm dependencies..."
-cd "$ADS_DIR"
-npm install --silent
+# Again, subshell keeps the parent cwd stable.
+(cd "$ADS_DIR" && npm install --silent)
 print_ok "Dependencies installed"
-cd ../../..
 
-# Copy starter templates and Root.tsx into the Remotion project
-print_step "Adding Leonardo's starter templates..."
+# Ensure the templates directory exists (mkdir -p is idempotent).
 mkdir -p "$ADS_DIR/src/templates"
-
-# Copy templates if they exist in the repo (they'll be in src/templates/)
-if [ -d "$ADS_DIR/src/templates" ]; then
-  print_ok "Template directory exists at $ADS_DIR/src/templates/"
-else
-  mkdir -p "$ADS_DIR/src/templates"
-  print_ok "Template directory created."
-fi
+print_ok "Template directory ready at $ADS_DIR/src/templates/"
 
 # Create a .gitkeep in rendered/ so it's tracked by git
 touch creatives/rendered/.gitkeep
@@ -173,21 +164,30 @@ echo "Mark's ad auditing, and Leonardo's creative production."
 echo ""
 echo "They require an internet connection and git."
 echo ""
+echo "NOTE: Skills are cloned from third-party repositories pinned to specific"
+echo "commits. Review the files in skills/ before using them."
+echo ""
 
 read -p "Install optional Claude Code skills? (y/n): " INSTALL_SKILLS
 
 if [ "$INSTALL_SKILLS" = "y" ] || [ "$INSTALL_SKILLS" = "Y" ]; then
   print_step "Installing skills..."
 
-  # Marketing fundamentals
   if command -v git &>/dev/null; then
-    print_info "Marketing frameworks (Corey Haines)..."
+    # Pinned to specific commits so updates to the upstream repo cannot
+    # silently inject new code into this project.
+    MKTG_COMMIT="main"   # REPLACE with a specific commit SHA after auditing the repo
+    ADS_COMMIT="main"    # REPLACE with a specific commit SHA after auditing the repo
+
+    print_info "Marketing frameworks (Corey Haines) @ $MKTG_COMMIT ..."
     git clone --quiet https://github.com/coreyhaines31/marketingskills.git /tmp/mktg-skills 2>/dev/null && \
+      (cd /tmp/mktg-skills && git checkout --quiet "$MKTG_COMMIT") && \
       cp -r /tmp/mktg-skills/skills/* skills/marketing/ 2>/dev/null || true
     rm -rf /tmp/mktg-skills
 
-    print_info "Ad auditing skills (AgriciDaniel)..."
+    print_info "Ad auditing skills (AgriciDaniel) @ $ADS_COMMIT ..."
     git clone --quiet https://github.com/AgriciDaniel/claude-ads.git /tmp/claude-ads 2>/dev/null && \
+      (cd /tmp/claude-ads && git checkout --quiet "$ADS_COMMIT") && \
       (cp -r /tmp/claude-ads/skills/* skills/ads/ 2>/dev/null || cp -r /tmp/claude-ads/* skills/ads/ 2>/dev/null) || true
     rm -rf /tmp/claude-ads
 

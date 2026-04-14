@@ -170,7 +170,7 @@ If anything fails → send back before updating status to the next stage. The hu
 
 When the human asks "what's going on" or "status" during a session, just point them to `state/outputs/current.md` — it's always up to date. No need to re-summarize; that's what the file is for.
 
-### 8. LEARNING & IMPROVEMENT
+### 9. LEARNING & IMPROVEMENT
 
 After every complete cycle, write a cycle analysis in `state/orchestrator-notes.md`.
 
