@@ -27,10 +27,13 @@ import os
 import sys
 import argparse
 import json
+import shutil
+import tempfile
 
 # ─── Config ───────────────────────────────────────────────────────────────────
 
-FFMPEG = '/opt/homebrew/bin/ffmpeg'
+# Resolve ffmpeg from PATH first; fall back to the Homebrew location on macOS.
+FFMPEG = shutil.which('ffmpeg') or '/opt/homebrew/bin/ffmpeg'
 ANALYSIS_SR = 22050  # downsample to 22kHz for faster processing
 
 
@@ -52,25 +55,36 @@ def read_wav(wav_path: str) -> tuple[list[float], int, float]:
     return samples, sr, duration
 
 
-def compute_rms(samples: list[float], sr: int, 
+def compute_rms(samples: list[float], sr: int,
                 window_s: float = 0.5, step_s: float = 0.1) -> list[tuple[float, float]]:
+    """Compute a sliding-window RMS envelope using prefix sums — O(n) time."""
     win = int(sr * window_s)
     step = int(sr * step_s)
+    n = len(samples)
+
+    if win <= 0 or n < win:
+        return []
+
+    # Build prefix-sum of squares once — avoids re-summing each window.
+    prefix = [0.0] * (n + 1)
+    for i, x in enumerate(samples):
+        prefix[i + 1] = prefix[i] + x * x
+
     rms = []
-    for i in range(0, len(samples) - win, step):
-        chunk = samples[i:i + win]
-        v = math.sqrt(sum(x * x for x in chunk) / len(chunk))
+    for i in range(0, n - win, step):
+        window_sum = prefix[i + win] - prefix[i]
+        v = math.sqrt(window_sum / win)
         rms.append((i / sr, v))
     return rms
 
 
-def find_beat_drop(rms: list[tuple[float, float]], 
+def find_beat_drop(rms: list[tuple[float, float]],
                    min_time: float = 2.0) -> tuple[float, float]:
     """Find the first significant energy jump after min_time seconds.
-    
+
     Uses a sliding window approach: compares short-term energy (1s) against
     the energy of the preceding 3s window. A "drop" is when short-term
-    energy is 2.5× the preceding window's energy — catching both sudden 
+    energy is 2.5× the preceding window's energy — catching both sudden
     drops and gradual builds that culminate in a clear energy jump.
     """
     max_rms = max(v for _, v in rms)
@@ -89,7 +103,7 @@ def find_beat_drop(rms: list[tuple[float, float]],
         t = rms[i][0]
         if t < min_time:
             continue
-        
+
         pre_avg = sum(rms[j][1] for j in range(i - window_pre, i)) / window_pre
         post_avg = sum(rms[j][1] for j in range(i, i + window_post)) / window_post
 
@@ -111,13 +125,13 @@ def find_beat_drop(rms: list[tuple[float, float]],
     return 0.0, 0.0
 
 
-def estimate_bpm(samples: list[float], sr: int, 
+def estimate_bpm(samples: list[float], sr: int,
                  start_s: float = 0.0, duration_s: float = 30.0) -> float:
     """Estimate BPM using onset detection autocorrelation."""
     start_i = int(start_s * sr)
     end_i = min(len(samples), int((start_s + duration_s) * sr))
     seg = samples[start_i:end_i]
-    
+
     if len(seg) < sr * 4:
         return 0.0
 
@@ -146,29 +160,28 @@ def estimate_bpm(samples: list[float], sr: int,
     # Search lags corresponding to 60-180 BPM
     step_s = 0.01
     best_r = -1.0
-    best_lag = 0.0
+    best_bpm = 0       # initialised here — avoids UnboundLocalError when no lag matches
     for bpm in range(60, 181):
         lag_s = 60.0 / bpm
         lag_steps = int(lag_s / step_s)
         if lag_steps >= len(centered):
             continue
-        corr = sum(centered[i] * centered[i + lag_steps] 
-                    for i in range(len(centered) - lag_steps))
+        corr = sum(centered[i] * centered[i + lag_steps]
+                   for i in range(len(centered) - lag_steps))
         r = corr / norm
         if r > best_r:
             best_r = r
-            best_lag = lag_s
             best_bpm = bpm
 
     return float(best_bpm) if best_r > 0.05 else 0.0
 
 
-def find_phrase_cycle(rms: list[tuple[float, float]], 
-                      drop_time: float, 
+def find_phrase_cycle(rms: list[tuple[float, float]],
+                      drop_time: float,
                       search_duration: float = 60.0) -> float:
     """Find the phrase/cycle length after the beat drop using autocorrelation on RMS envelope."""
     post_rms = [v for t, v in rms if drop_time <= t <= drop_time + search_duration]
-    
+
     if len(post_rms) < 60:
         return 0.0
 
@@ -186,8 +199,8 @@ def find_phrase_cycle(rms: list[tuple[float, float]],
     for lag_steps in range(int(4 / step_s), int(20 / step_s)):
         if lag_steps >= len(centered):
             break
-        corr = sum(centered[i] * centered[i + lag_steps] 
-                    for i in range(len(centered) - lag_steps))
+        corr = sum(centered[i] * centered[i + lag_steps]
+                   for i in range(len(centered) - lag_steps))
         r = corr / norm
         if r > best_r:
             best_r = r
@@ -208,19 +221,20 @@ def main():
     parser = argparse.ArgumentParser(description='Beat Analyzer for Remotion video sync')
     parser.add_argument('mp3_path', help='Path to the MP3 file to analyze')
     parser.add_argument('--fps', type=int, default=30, help='Video frame rate (default: 30)')
-    parser.add_argument('--video-duration', type=float, default=0, 
+    parser.add_argument('--video-duration', type=float, default=0,
                         help='Target video duration in seconds (for scene planning)')
     parser.add_argument('--drop-at-video-second', type=float, default=6.0,
                         help='When the beat drop should land in the video (default: 6.0s)')
-    parser.add_argument('--json', action='store_true', help='Output as JSON')
+    parser.add_argument('--json', action='store_true', help='Output as compact JSON')
     args = parser.parse_args()
 
     if not os.path.exists(args.mp3_path):
         print(f'Error: File not found: {args.mp3_path}', file=sys.stderr)
         sys.exit(1)
 
-    # Convert and analyze
-    wav_path = '/tmp/_beat_analyzer_temp.wav'
+    # Use a process-unique temp file to avoid collisions under parallel runs.
+    tmp_fd, wav_path = tempfile.mkstemp(suffix='.wav')
+    os.close(tmp_fd)
     try:
         mp3_to_wav(args.mp3_path, wav_path)
         samples, sr, duration = read_wav(wav_path)
@@ -252,7 +266,8 @@ def main():
     }
 
     if args.json:
-        print(json.dumps(result, indent=2))
+        # Compact (no whitespace) — token-efficient for LLM / scripted consumption.
+        print(json.dumps(result, separators=(',', ':')))
     else:
         print(f'''
 ╔══════════════════════════════════════════════════════════════╗

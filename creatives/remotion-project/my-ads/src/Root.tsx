@@ -1,3 +1,4 @@
+import React from "react";
 import "./index.css";
 import { Composition } from "remotion";
 
@@ -20,6 +21,11 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
+      {/*
+       * durationInFrames={1} is intentional for static image ads.
+       * Render with: npx remotion still FeedTemplate --frame 0 --output ../../rendered/feed.png
+       * Do NOT increase this — a 1-frame composition = single PNG export.
+       */}
       <Composition
         id="FeedTemplate"
         component={FeedTemplate}

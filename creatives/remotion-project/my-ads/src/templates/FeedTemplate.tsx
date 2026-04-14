@@ -13,6 +13,10 @@
 
 import React from "react";
 import { AbsoluteFill } from "remotion";
+import { loadFont as loadSpaceGrotesk } from "@remotion/google-fonts/SpaceGrotesk";
+
+// Load fonts here so they are only bundled when this composition is active.
+loadSpaceGrotesk();
 // import { Img, staticFile } from "remotion"; // Uncomment when adding product images
 
 // ─── Brand Config (fill from state/product-context.md) ──────────────────────

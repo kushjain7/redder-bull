@@ -19,6 +19,10 @@ import {
   useVideoConfig,
   interpolate,
 } from "remotion";
+import { loadFont as loadSpaceGrotesk } from "@remotion/google-fonts/SpaceGrotesk";
+
+// Load fonts here so they are only bundled when this composition is active.
+loadSpaceGrotesk();
 
 // ─── Brand Config (fill from state/product-context.md) ──────────────────────
 const BRAND = {
