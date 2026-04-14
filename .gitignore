@@ -53,3 +53,23 @@ yarn-debug.log*
 # Raw ad library data can be large — optionally ignore
 # research/ad-library-data/*.json
 # research/ad-library-data/*.csv
+# Added by code-review-graph
+.code-review-graph/
+.cursorrules
+.mcp.json
+.windsurfrules
+.gitignore
+.claude/skills/review-changes.md
+.cursor/mcp.json
+.claude/skills/refactor-safely.md
+.claude/skills/explore-codebase.md
+.claude/skills/debug-issue.md
+.gitignore
+.gitignore
+GEMINI.md
+CLAUDE.md
+AGENTS.md
+.opencode.json
+.gitignore
+CLAUDE.md
+CLAUDE.md
