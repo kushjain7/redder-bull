@@ -86,18 +86,35 @@ marketing-agency/
 
 ---
 
-## SKILL LOADING ORDER (Important — Saves Context Window)
+## ⚠️ MANDATORY SKILL READING — NON-NEGOTIABLE
 
-When Claude Code starts, load skills in this order:
+**Every agent MUST read their skill files before doing ANY work. This is not optional.**
 
-1. `skills/orchestrator/SKILL.md` — **Always loaded first** (Zimmer's rules)
-2. `state/product-context.md` — **Always loaded for product knowledge**
-3. Then based on which agent is active:
-   - Tanmay (Strategist): `skills/marketing/SKILL.md`
-   - Leonardo (Creative Engine): `skills/remotion/SKILL.md`
-   - Mark (Media Buyer): `skills/ads/SKILL.md`
+If you start working without reading your skill file, your output will be wrong. The skill files contain the exact methods, tools, and quality bars you must follow. LLM defaults are not acceptable substitutes.
 
-**Do NOT load all skills at once** — it wastes context window. Load only what's needed for the current task.
+### What every agent reads, in order, before acting:
+
+| Agent | Step 1 | Step 2 | Step 3 |
+|---|---|---|---|
+| **Zimmer** | `skills/orchestrator/SKILL.md` | `state/product-context.md` | `state/outputs/FORMAT.md` |
+| **Tanmay** | `skills/marketing/SKILL.md` | `state/product-context.md` | Relevant `.agents/skills/` files (see below) |
+| **Leonardo** | `skills/remotion/SKILL.md` | `state/product-context.md` | Brief's Artifacts + Music sections |
+| **Mark** | `skills/ads/SKILL.md` | `state/product-context.md` | `state/approvals/pending-approval.md` |
+
+### External skills (coreyhaines31/marketingskills) — installed at `.agents/skills/`
+
+These are mandatory for the relevant agents. Read them the same way you read the internal SKILL.md files:
+
+| Task | Agent | Must read |
+|---|---|---|
+| Competitor research | Tanmay | `.agents/skills/customer-research/SKILL.md` |
+| Writing creative briefs / ad copy | Tanmay | `.agents/skills/copywriting/SKILL.md` |
+| Ad creative strategy | Tanmay | `.agents/skills/ad-creative/SKILL.md` |
+| Paid ads strategy | Tanmay + Mark | `.agents/skills/paid-ads/SKILL.md` |
+| Landing page / CRO feedback | Tanmay | `.agents/skills/page-cro/SKILL.md` |
+| Marketing angles & ideas | Tanmay | `.agents/skills/marketing-psychology/SKILL.md` |
+
+**Do NOT load all 35 external skills at once** — only load the ones listed for the current task.
 
 ---
 
@@ -159,19 +176,61 @@ Previous pipeline outputs are archived at `state/outputs/archive/`.
 
 ## QUICK COMMAND REFERENCE
 
-| What You Want | What To Type |
-|---|---|
-| See what's happening | Open `state/outputs/current.md` |
-| Check status | `You are Zimmer. Give me the current status of everything.` |
-| Start research | `You are Zimmer. Start Cycle [N], trigger Tanmay for research.` |
-| Write briefs | `You are Tanmay. Write creative briefs based on the latest research.` |
-| Review briefs | `You are Zimmer. Review the briefs in briefs/ for quality and completeness.` |
-| Make creatives | `You are Leonardo. Produce creatives from the approved briefs. Read skills/remotion/SKILL.md.` |
-| Review creatives | `You are Zimmer. Review the creatives in creatives/rendered/ against the briefs.` |
-| Launch campaigns | `You are Mark. Create campaigns based on the approved plan. Check approvals first.` |
-| Check performance | `You are Mark. Pull performance data and write the daily report.` |
-| Analyze & learn | `You are Zimmer. Analyze this cycle's performance and prepare for the next cycle.` |
-| Get suggestions | `You are Zimmer. What should we improve? Read all your notes and give me your top 3 recommendations.` |
+Copy-paste these exactly. They include the mandatory skill reads.
+
+**Check status**
+```
+Read CLAUDE.md and state/outputs/current.md. You are Zimmer. Give me the current status.
+```
+
+**Start a cycle (research)**
+```
+Read CLAUDE.md, skills/orchestrator/SKILL.md, state/product-context.md, state/system-log.md, state/orchestrator-notes.md.
+You are Zimmer. Start Cycle 1. Invoke Tanmay for research now.
+Tanmay: Read skills/marketing/SKILL.md, state/product-context.md, .agents/skills/customer-research/SKILL.md. Then do competitor and market research for the Indian market.
+```
+
+**Write creative briefs**
+```
+Read CLAUDE.md, skills/marketing/SKILL.md, state/product-context.md, research/competitor-analysis.md, research/winning-hooks.md, research/audience-insights.md, .agents/skills/copywriting/SKILL.md, .agents/skills/ad-creative/SKILL.md.
+You are Tanmay. Write 3 creative briefs. Each video brief MUST include Artifacts Needed and Music & SFX Direction sections.
+```
+
+**Review briefs (Zimmer)**
+```
+Read CLAUDE.md, skills/orchestrator/SKILL.md, state/product-context.md, briefs/creative-brief-001.md, briefs/creative-brief-002.md, briefs/creative-brief-003.md.
+You are Zimmer. Review all briefs for quality and completeness using your Stage 3 QC checklist.
+```
+
+**Produce creatives (Leonardo)**
+```
+Read CLAUDE.md, skills/remotion/SKILL.md, state/product-context.md, and ALL files in briefs/.
+You are Leonardo. Before writing any code: (1) check assets exist in public/, (2) run tools/beat-analyzer.py on the music file. Then produce video creatives with full sound design exactly as specified in skills/remotion/SKILL.md. Do NOT use any image generation model — use Remotion (React/TypeScript code) only.
+```
+
+**Review creatives (Zimmer)**
+```
+Read CLAUDE.md, skills/orchestrator/SKILL.md, creatives/review/creative-summary.md.
+You are Zimmer. Run your full 30-point QC checklist on the rendered files in creatives/rendered/. Use ffprobe to verify duration and resolution. Update state/outputs/current.md with your verdict.
+```
+
+**Launch campaigns (Mark)**
+```
+Read CLAUDE.md, skills/ads/SKILL.md, state/product-context.md, state/approvals/pending-approval.md, .agents/skills/paid-ads/SKILL.md.
+You are Mark. First verify today's approval exists. Then write the campaign plan to campaigns/campaign-plan-[N].md. Show Zimmer before executing.
+```
+
+**Daily performance check (Mark)**
+```
+Read CLAUDE.md, skills/ads/SKILL.md, campaigns/live-campaigns.md.
+You are Mark. Pull yesterday's data via Pipeboard MCP. Write the daily report to campaigns/performance/daily-report.md and optimization notes for Tanmay.
+```
+
+**Resume a session**
+```
+Read CLAUDE.md, skills/orchestrator/SKILL.md, state/system-log.md, state/current-cycle.md, state/orchestrator-notes.md, state/product-context.md.
+You are Zimmer. Resume from where we left off and update state/outputs/current.md with current status.
+```
 
 ---
 

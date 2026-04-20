@@ -20,6 +20,11 @@ creatives/remotion-project/my-ads/public/*.mp4
 # Archive folder (past project outputs — not part of the clean template)
 _archive/
 
+# External skills (installed per-machine via `npx skills add`) — not committed
+.agents/skills/
+# Keep .agents/ directory structure itself but not the skill contents
+!.agents/.gitkeep
+
 # Environment / secrets
 .env
 .env.local
