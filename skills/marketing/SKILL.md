@@ -147,34 +147,54 @@ Each brief must use this exact structure:
 ## Artifacts Needed ⚠️ REQUIRED FOR VIDEO BRIEFS
 List every external asset Leonardo will need that CANNOT be generated with code/CSS:
 
-- [ ] **[Asset name]** — [Description, format, and why it's needed]
-  - Example: "Product logo PNG — transparent background, min 512×512px — for brand overlay in hook"
-  - Example: "Claude mascot image — for agent character visualization"
-  - Example: "Stock footage of office meeting — 5s clip — for social proof scene"
-  - Example: "Hero product photo — white background — for product reveal"
+- [ ] **[Asset name]** — [Description, format, why it's needed, where to place it]
+  - Example: "Product logo PNG — transparent background, min 512×512px — place in `assets/dynamic/cycle-N/brief-N/stock-images/`"
+  - Example: "Stock footage — office meeting, 3-5s clip, person looking at phone — place in `assets/dynamic/cycle-N/brief-N/stock-video/`"
+  - Example: "Hero product photo — white background — place in `assets/dynamic/cycle-N/brief-N/stock-images/`"
 
 If no external artifacts needed (all visuals can be code-generated): write "None — all visuals are code-generated."
 
 Leonardo CANNOT create photographic images, logos, or real product shots. If the brief requires them, they MUST be listed here so Zimmer can request them from the human.
 
+**Standard SFX (no request needed):** Leonardo automatically uses files from `assets/static/sfx/`. You do not need to list these unless you want a non-standard sound.
+
 ## Music & SFX Direction ⚠️ REQUIRED FOR VIDEO BRIEFS
 Guide Leonardo and Zimmer on the audio layer:
 
-### Background Music
+### Background Music for Production (Leonardo uses this)
 - **Mood:** [energetic / calm / dramatic / playful / corporate / emotional]
 - **Tempo:** [fast ~120+ BPM / medium ~90-110 BPM / slow ~60-80 BPM]
 - **Genre:** [electronic / acoustic / orchestral / lo-fi / hip-hop / cinematic]
-- **Reference tracks:** [List 2-3 specific songs or artists that capture the vibe]
-- **Key moments:** [e.g., "Beat drop at 3s when hook appears", "Quiet bridge at 15s for testimonial"]
-- **Source:** [User-provided file / Royalty-free library / AI-generated]
+- **Reference tracks:** [List 2-3 specific songs — artist + song name — that capture the vibe]
+- **Key moments:** [e.g., "Beat drop at 3s when hook appears", "Quiet at 15s for testimonial"]
+- **Source:** User-provided file (place in `assets/dynamic/cycle-N/brief-N/music/`)
+- **Why this genre:** [Why this music fits THIS ICP — don't just list a genre, explain the emotional connection]
 
-If recommending user-provided music, explain why free alternatives won't work for this brief's quality bar.
+### Instagram Trending Music Suggestions (for posting — separate from production audio)
+These are suggestions for the human to use when posting the reel on Instagram natively.
+Instagram's music feature lets you add a licensed trending song over the video when posting.
 
-### Sound Effects (Leonardo will add these automatically — this guides the tone)
-- **Transition style:** [whoosh / glitch / swoosh / none]
-- **Text appearance:** [typing / impact beat / subtle pop / none]
-- **Key moment accents:** [describe any specific SFX moments, e.g., "power chord when main stat appears"]
-- **Overall SFX density:** [minimal — 2-3 total / moderate — 5-8 / heavy — continuous]
+- **Suggested track 1:** [Song name — Artist] — [Why: tempo match, ICP resonance, current trend status]
+- **Suggested track 2:** [Song name — Artist] — [Why]
+- **Suggested track 3:** [Song name — Artist] — [Why]
+
+**How to choose:** Think about:
+1. What is the ICP (age, vibe, city tier) currently listening to on Instagram Reels?
+2. What mood does the creative evoke — does the song amplify it?
+3. Is the song currently trending (check Instagram Reels trending audio)?
+4. Does the tempo match the pacing of the video?
+
+Example for a young urban D2C product targeting 18-28 metro audience:
+- "Calm Down — Rema & Selena Gomez" (viral, high-energy, urban)
+- "Kesariya — Arijit Singh" (emotional, works for aspirational products)
+- "Pasoori — Ali Sethi" (cinematic, trending long tail)
+
+### Sound Effects Direction (Leonardo uses `assets/static/sfx/` automatically)
+- **Transition style:** [whoosh-fast / whoosh-soft / swoosh-down / swipe-right]
+- **Text/element entry:** [thud-low / punch-mid / pop-soft / none]
+- **Key moment accents:** [impact-hard for reveal / snare-accent for stats / bass-swell for boss entry]
+- **Ambience layer:** [tech-hum / city-ambience / none]
+- **Overall SFX density:** [minimal — 2-3 / moderate — 5-8 / heavy — continuous]
 
 ## Why This Will Work
 [Reference specific competitor patterns or audience insights.]
@@ -193,8 +213,10 @@ Before submitting briefs to Zimmer, verify every item:
 - [ ] At least 1 brief is video (Reels)
 - [ ] At least 1 brief is static or carousel
 - [ ] All copy is in the language specified in product-context.md
-- [ ] **Artifacts Needed section is filled** (or explicitly says "None")
+- [ ] **Artifacts Needed section is filled** (or explicitly says "None") — includes exact `assets/dynamic/` paths
 - [ ] **Music & SFX Direction section is filled** for all video briefs
+- [ ] **Instagram Trending Music Suggestions section has 3 tracks** with ICP reasoning for all Reels briefs
+- [ ] **SFX direction names match** files in `assets/static/sfx/` (e.g. "whoosh-fast", "thud-low")
 
 ---
 

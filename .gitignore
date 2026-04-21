@@ -25,6 +25,16 @@ _archive/
 # Keep .agents/ directory structure itself but not the skill contents
 !.agents/.gitkeep
 
+# Dynamic assets — campaign-specific, too large for git
+assets/dynamic/*/
+!assets/dynamic/README.md
+!assets/dynamic/.gitkeep
+
+# Static assets — committed (SFX library, brand files)
+# Exception: raw/large media files if added to static
+assets/static/overlays/*.mp4
+assets/static/overlays/*.mov
+
 # Environment / secrets
 .env
 .env.local

@@ -73,7 +73,26 @@ marketing-agency/
 │       └── optimization-notes.md      ← What to change next
 │
 ├── tools/
-│   └── beat-analyzer.py              ← Reusable music analysis for video sync
+│   ├── beat-analyzer.py              ← Reusable music analysis for video sync
+│   └── gen_sfx_library.py            ← Regenerate the static SFX library
+│
+├── assets/
+│   ├── static/                        ← Permanent reusable assets (committed to git)
+│   │   ├── sfx/
+│   │   │   ├── transitions/           ← whoosh-fast, whoosh-soft, swoosh-down, swipe-right
+│   │   │   ├── impacts/               ← thud-low, punch-mid, impact-hard, snare-accent, pop-soft
+│   │   │   ├── risers/                ← riser-cinematic, riser-electronic, riser-short, bass-swell
+│   │   │   ├── ambience/              ← tech-hum, city-ambience
+│   │   │   └── ui/                    ← typing-fast, typing-slow, notification, click-ui
+│   │   ├── brand/                     ← Logo, brand color swatches (you add these)
+│   │   ├── fonts/                     ← Custom/licensed fonts
+│   │   └── overlays/                  ← Visual overlays: grain, vignette, light leaks
+│   └── dynamic/                       ← Campaign-specific assets (git-ignored, too large)
+│       └── cycle-N/brief-N/           ← Created by Zimmer when assets are requested
+│           ├── stock-video/
+│           ├── stock-images/
+│           ├── music/
+│           └── ASSET-REQUEST.md       ← What's needed + Instagram music suggestions
 │
 ├── _archive/                          ← Past project outputs (git-ignored)
 │

@@ -104,22 +104,42 @@ When Tanmay's brief lists required artifacts or music:
 
 1. Read the brief's **Artifacts Needed** section
 2. Read the brief's **Music & SFX Direction** section
-3. Write to `state/approvals/pending-approval.md`:
+3. Create the dynamic asset folder for this cycle/brief:
+   ```bash
+   mkdir -p assets/dynamic/cycle-[N]/brief-[N]/stock-video
+   mkdir -p assets/dynamic/cycle-[N]/brief-[N]/stock-images
+   mkdir -p assets/dynamic/cycle-[N]/brief-[N]/music
    ```
-   ## Assets Needed from Human — [DATE]
-   
-   ### Artifacts (provide files or URLs)
-   - [ ] [Description of artifact 1 — e.g., "Product logo PNG, transparent background"]
-   - [ ] [Description of artifact 2]
-   
-   ### Background Music (provide MP3 file)
-   - Tanmay recommends: [genre/mood/tempo from brief]
-   - Examples: [reference tracks listed in brief]
-   - Duration needed: [X seconds minimum]
-   
-   Place files in: creatives/remotion-project/my-ads/public/
+4. Write `assets/dynamic/cycle-[N]/brief-[N]/ASSET-REQUEST.md`:
+   ```markdown
+   # Asset Request — Cycle [N] / Brief [N]
+   **Requested by:** Tanmay | **Reviewed by:** Zimmer | **Date:** [DATE]
+
+   ## What's needed
+
+   | Asset | Description | Format | Place at | Status |
+   |---|---|---|---|---|
+   | [Asset name] | [Description] | [PNG/MP3/MP4] | assets/dynamic/cycle-N/brief-N/[subfolder]/ | ⏳ Needed |
+
+   ## Background Music
+   - **Tanmay recommends:** [genre/mood/tempo from brief]
+   - **Reference tracks:** [list from brief]
+   - **Duration needed:** [X seconds minimum]
+   - **Place at:** `assets/dynamic/cycle-[N]/brief-[N]/music/`
+
+   ## Instagram Music Suggestions (for posting)
+   Tanmay's trending track suggestions for this creative's ICP:
+   [copy the Instagram Trending Music Suggestions section from the brief]
    ```
-4. **WAIT** for human to provide the files before directing Leonardo to produce
+5. Write the asset request to `state/outputs/current.md` in your normal dashboard format
+6. Write to `state/approvals/pending-approval.md`:
+   ```
+   ## Assets Needed — Cycle [N] / Brief [N] — [DATE]
+   See full request: assets/dynamic/cycle-[N]/brief-[N]/ASSET-REQUEST.md
+   ```
+7. **WAIT** for human to confirm files are placed before directing Leonardo
+
+**Standard SFX never need to be requested** — the full library is at `assets/static/sfx/` and Leonardo uses it automatically.
 
 ### 6. OUTPUT SYSTEM — THE HUMAN INTERFACE
 

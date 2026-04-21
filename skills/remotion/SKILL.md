@@ -56,9 +56,23 @@ npx remotion studio
 ### Step 2: Check Assets
 Before writing any code:
 1. Read the brief's **Artifacts Needed** section
-2. Verify every listed asset exists in `creatives/remotion-project/my-ads/public/`
-3. If ANY asset is missing → **STOP** → write to `creatives/review/creative-summary.md` what's missing → notify Zimmer
-4. **Never substitute a code-generated placeholder** for a user-provided asset (no CSS orbs instead of real logos, no generic shapes instead of product photos)
+2. Check dynamic assets — these should be in `assets/dynamic/cycle-N/brief-N/` subfolders:
+   - `stock-video/` — any required footage
+   - `stock-images/` — product photos, hero images, logos
+   - `music/` — background music track
+3. Copy required files to `creatives/remotion-project/my-ads/public/` before coding
+4. If ANY listed artifact is missing → **STOP** → write to `creatives/review/creative-summary.md` what's missing → notify Zimmer
+5. **Never substitute a code-generated placeholder** for a user-provided asset
+
+**Static SFX are always available** — no request needed. The full library lives at `assets/static/sfx/`:
+```
+transitions/  whoosh-fast-01.mp3  whoosh-soft-01.mp3  swoosh-down-01.mp3  swipe-right-01.mp3
+impacts/      thud-low-01.mp3     punch-mid-01.mp3    impact-hard-01.mp3  snare-accent-01.mp3  pop-soft-01.mp3
+risers/       riser-cinematic-01.mp3  riser-electronic-01.mp3  riser-short-01.mp3  bass-swell-01.mp3
+ambience/     tech-hum-01.mp3     city-ambience-01.mp3
+ui/           typing-fast-01.mp3  typing-slow-01.mp3  notification-01.mp3  click-ui-01.mp3
+```
+Copy the ones you need to `creatives/remotion-project/my-ads/public/` before using them.
 
 ### Step 3: Analyze Background Music (MANDATORY for video)
 If a background music file is provided:
@@ -97,36 +111,47 @@ Create a new file in `creatives/remotion-project/my-ads/src/`:
   ```
 
 #### B. Transition SFX (add these automatically)
-- **Whoosh** between every major scene change (use `Sequence` with `from` = scene end - 10 frames)
-- Volume: 0.35–0.45
+- Use `assets/static/sfx/transitions/whoosh-fast-01.mp3` for fast scene cuts
+- Use `assets/static/sfx/transitions/whoosh-soft-01.mp3` for gentle transitions
+- Use `assets/static/sfx/transitions/swoosh-down-01.mp3` for exit/closing transitions
+- Volume: 0.35–0.45 · Place in `Sequence` with `from` = scene end − 10 frames
 - **Do NOT add whooshes during quiet music intros** — only mid-video transitions
 
 #### C. Element Entry SFX (add these automatically)
-- **Soft thud/pop** when major visual elements appear (mascots, product images, hero stats)
-- Must be low-to-mid frequency (100–300 Hz base). **NEVER use high-pitched pings or clicks.**
+- Use `assets/static/sfx/impacts/thud-low-01.mp3` for mascots, product images, hero stats
+- Use `assets/static/sfx/impacts/pop-soft-01.mp3` for smaller UI element entries
 - Volume: 0.45–0.55
-- If the BGM's beat naturally punctuates the entry, skip the pop — let the music do the work
+- If the BGM's beat naturally punctuates the entry, skip it — let the music do the work
 
 #### D. Text/Typing SFX (add these automatically)
-- **Typing sounds** whenever terminal/code cards are displayed
-- Duration: match the typing animation length
-- Volume: 0.22–0.28 (subtle, not distracting)
+- Use `assets/static/sfx/ui/typing-fast-01.mp3` for terminal/code cards
+- Use `assets/static/sfx/ui/typing-slow-01.mp3` for typewriter text reveals
+- Duration: match the typing animation length · Volume: 0.22–0.28
 
 #### E. Impact Beats (add these automatically)
-- **Short snare/impact hit** on key headline moments (e.g., "I'm the boss", price reveals, main stat)
-- Volume: 0.45–0.55
-- 1–3 per agent scene maximum — don't overuse
+- Use `assets/static/sfx/impacts/snare-accent-01.mp3` for key headline / stat moments
+- Use `assets/static/sfx/impacts/punch-mid-01.mp3` for CTA / product reveal moments
+- Volume: 0.45–0.55 · Max 1–3 per scene
 
 #### F. Special Moments
-- If a "boss" character enters → add a bass swell build (2–3s) before their scene
-- If there's a reveal moment → add a subtle riser sound
-- Read the brief's SFX guidance for scene-specific directions
+- Boss/power entry → `assets/static/sfx/risers/bass-swell-01.mp3` (2s before scene)
+- Big reveal / product drop → `assets/static/sfx/risers/riser-cinematic-01.mp3`
+- Quick tension before cut → `assets/static/sfx/risers/riser-short-01.mp3`
+- Tech/coding scenes → `assets/static/sfx/ambience/tech-hum-01.mp3` (very low volume: 0.1)
+- Success / completion → `assets/static/sfx/ui/notification-01.mp3`
 
-#### G. SFX Generation
-If SFX files don't exist in `public/`, generate them:
-- Use `public/gen_audio.py` as a template for mathematical synthesis
-- Convert to MP3 using ffmpeg
-- **Test every generated sound** — if it sounds harsh/robotic, regenerate with lower frequencies and shorter decay
+#### G. Using Static SFX in Remotion
+```tsx
+import { staticFile, Audio, Sequence } from 'remotion';
+// Copy the file from assets/static/sfx/ to public/ first, then:
+<Sequence from={sceneStart - 10} durationInFrames={20}>
+  <Audio src={staticFile('whoosh-fast-01.mp3')} volume={0.4} />
+</Sequence>
+```
+
+#### H. Only generate new SFX if the brief requires something NOT in the static library
+If you need to generate: use `tools/gen_sfx_library.py` as a reference for the synthesis approach.
+Add generated files to `assets/static/sfx/` (with correct naming) so they're available for future cycles.
 
 ### Step 6: Register & Render
 
