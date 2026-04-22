@@ -109,3 +109,22 @@ assets/iktara\ general\ assets/
 scripts/qc/frames/
 scripts/qc/qc.json
 scripts/qc/spectrogram.png
+
+# ── HIGGSFIELD INTEGRATION (never push) ───────────────────────────────────────
+
+# Persistent Playwright Chrome profile (session cookies, etc.)
+.playwright-profile/
+
+# API credentials (contains key + secret)
+scripts/higgsfield/*.local.env
+scripts/higgsfield/higgsfield.local.env
+
+# Per-brief chunk manifests and generation reports (live next to gitignored briefs)
+**/ugc-chunks.json
+**/ugc-chunks-report.json
+
+# Last-frame images used for character chaining (extracted at runtime)
+**/chunk-*-last.jpg
+
+# Downloaded UGC clips (already covered by public/ rules above, belt-and-braces)
+creatives/remotion-project/my-ads/public/campaigns/

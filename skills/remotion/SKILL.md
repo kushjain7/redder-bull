@@ -17,6 +17,7 @@
 6. Read ALL approved briefs in `briefs/`
 7. Verify every artifact listed in the brief's "Artifacts Needed" section exists in `creatives/remotion-project/my-ads/public/`
 8. Run `python3 tools/beat-analyzer.py <music-file>` if a music file was provided
+9. **If brief is tagged `category: ugc`:** Read `skills/higgsfield/SKILL.md` and `skills/higgsfield/prompt-templates.md` BEFORE touching any code — you generate the footage first
 
 If any asset is missing → **STOP** → write what's missing to `creatives/review/creative-summary.md` → notify Zimmer. Do not substitute or guess.
 
@@ -293,6 +294,127 @@ If a brief is unclear or missing information:
 3. Notify Zimmer so he can clarify with Tanmay or the human
 
 **Never produce a creative that guesses at the product's messaging or uses substitute assets.**
+
+---
+
+---
+
+## Source Footage: AI-Generated UGC via Higgsfield
+
+> **When this applies:** Any brief tagged `category: ugc` or `ugc_generation: higgsfield`.
+
+When a brief requires UGC talking-head footage, **do not wait for the human to provide video files**. Leonardo drives the full generation pipeline using the Higgsfield API.
+
+### Pre-read
+
+Before starting:
+1. Read `skills/higgsfield/SKILL.md` — the authoritative Higgsfield runbook
+2. Read `skills/higgsfield/prompt-templates.md` — UGC archetype scaffolds
+
+### End-to-end workflow
+
+**Step 1: Extract the UGC script from the brief**
+
+The brief's "Script" or "Voice-over Script" section contains the UGC copy. Copy it to a plain `.txt` file next to the brief:
+
+```
+briefs/{category}/{subcategory}/{YYYY-MM}/{YYYY-Www}/ugc-script.txt
+```
+
+Strip any markdown, stage directions, or formatting cues — plain speech only.
+
+**Step 2: Pick an avatar**
+
+```bash
+python3 scripts/higgsfield/pick-avatar.py \
+  --gender <female|male|neutral> \
+  --age-band <18-24|25-30|30-35|35-45> \
+  --vibe <casual|confessional|professional|energetic|relatable>
+```
+
+Use the brief's audience profile to choose. If no match found → **STOP** → notify Zimmer.
+
+**Step 3: Smart-chunk the script**
+
+```bash
+python3 scripts/higgsfield/chunk-script.py \
+  --script briefs/.../ugc-script.txt \
+  --brief-id NNN \
+  --avatar assets/static/avatars/... \
+  --template "kling-video/v2.1/pro/image-to-video" \
+  --output briefs/.../ugc-chunks.json
+```
+
+Review the output. Check no chunk is over budget (the script will warn if so). Manually edit `ugc-chunks.json` if any chunk needs adjustment.
+
+**Step 4: Run generation**
+
+```bash
+bash scripts/higgsfield/run-brief.sh \
+  --chunks briefs/.../ugc-chunks.json
+```
+
+Dry-run first if you want to inspect the plan without consuming API credits:
+```bash
+bash scripts/higgsfield/run-brief.sh --chunks ... --dry-run
+```
+
+The runner:
+- Verifies API credentials and SDK
+- Uploads the avatar image
+- Generates each chunk (with retries on transient failures)
+- Downloads each MP4 to `public/campaigns/{brief_id}/ugc/`
+- Extracts last frames for character consistency chaining
+- Writes `ugc-chunks-report.json`
+
+Check the report for any `"status": "failed"` entries. Resume failed chunks:
+```bash
+bash scripts/higgsfield/run-brief.sh --chunks ... --start-from <N>
+```
+
+**Step 5: Verify clips before building the Remotion composition**
+
+```bash
+for f in creatives/remotion-project/my-ads/public/campaigns/NNN/ugc/chunk-*.mp4; do
+  echo "$f: $(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$f")s"
+done
+```
+
+All clips should be 5–8 seconds.
+
+**Step 6: Build the Remotion composition**
+
+Use `<OffthreadVideo>` (mandatory — see `skills/video-laws.md` Law V2). Never use `<Video>`.
+
+Key points for UGC compositions:
+- Set composition FPS to match the source clips (check with `ffprobe -v quiet -select_streams v:0 -show_entries stream=r_frame_rate -of csv=p=0 chunk-01.mp4`)
+- Do NOT deshake or reprocess the video in any way (Law V4)
+- Do NOT cut mid-clip on AI-chained footage — only trim dead air from the tail (Law V3)
+- No background music on UGC creatives — see `skills/sfx-heuristics.md`
+- Text captions and graphic overlays are independent of the video layer — position them above SAFE_B = 380
+
+```tsx
+const fps = 24; // match source clips
+
+// One OffthreadVideo per chunk, sequential Sequences
+<Sequence from={0} durationInFrames={chunk1Frames}>
+  <OffthreadVideo src={staticFile('campaigns/NNN/ugc/chunk-01.mp4')} />
+</Sequence>
+<Sequence from={chunk1Frames} durationInFrames={chunk2Frames}>
+  <OffthreadVideo src={staticFile('campaigns/NNN/ugc/chunk-02.mp4')} />
+</Sequence>
+// ... then text overlays as independent Sequence layers
+```
+
+### Applying video laws to Higgsfield footage (quick ref)
+
+| Law | Rule for Higgsfield UGC |
+|---|---|
+| V1 (FPS match) | Always probe the source clip fps; use that as composition fps |
+| V2 (OffthreadVideo) | `<OffthreadVideo>` mandatory — no exceptions |
+| V3 (No mid-clip cuts) | Never cut inside an AI-chained clip; trim only from the tail if dead air |
+| V4 (No deshake) | Never pipe Higgsfield clips through deshake, stabilize, or any ffmpeg filter |
+| V5 (Audio first) | Decide captions/SFX before picture lock; check levels with `ffmpeg ebur128` |
 
 ---
 

@@ -1,0 +1,13 @@
+{
+  "_schema_version": "1.0",
+  "_description": "Avatar metadata for Higgsfield UGC generation. Add one entry per image file. Leonardo reads this via pick-avatar.py.",
+  "_fields": {
+    "filename": "Exact filename including extension",
+    "gender": "female | male | neutral",
+    "age_band": "18-24 | 25-30 | 30-35 | 35-45",
+    "vibe": "casual | aspirational | professional | energetic | relatable | tech-savvy",
+    "ethnicity_hint": "Optional free-text hint for model consistency (e.g. 'South Asian', 'East Asian'). Not used for filtering — for human reference only.",
+    "recommended_for": "Array of UGC archetypes this avatar works well for: confessional | day-in-the-life | reaction | demo"
+  },
+  "avatars": []
+}
