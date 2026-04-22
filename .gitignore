@@ -112,6 +112,9 @@ scripts/qc/spectrogram.png
 
 # ── HIGGSFIELD INTEGRATION (never push) ───────────────────────────────────────
 
+# Local Python package install target (used when global pip install is restricted)
+.venv-hf/
+
 # Persistent Playwright Chrome profile (session cookies, etc.)
 .playwright-profile/
 

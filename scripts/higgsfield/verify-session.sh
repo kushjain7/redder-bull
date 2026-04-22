@@ -18,8 +18,15 @@ echo "=== Higgsfield Session Verification ==="
 
 # ── Load credentials ─────────────────────────────────────────────────────────
 if [ -f "$ENV_FILE" ]; then
-  # shellcheck disable=SC2046
-  export $(grep -v '^#' "$ENV_FILE" | xargs)
+  # Parse env file safely (avoids xargs issues with large environments)
+  while IFS='=' read -r key val; do
+    # Skip comments and blank lines
+    [[ "$key" =~ ^[[:space:]]*# ]] && continue
+    [[ -z "$key" ]] && continue
+    # Strip leading/trailing whitespace from key
+    key="${key// /}"
+    export "$key=$val"
+  done < <(grep -v '^[[:space:]]*#' "$ENV_FILE" | grep '=')
 fi
 
 # ── 1. API credentials check ─────────────────────────────────────────────────
@@ -54,23 +61,29 @@ fi
 echo ""
 echo "→ Checking higgsfield-client SDK..."
 
+VENV_PATH="$REPO_ROOT/.venv-hf"
+
 if python3 -c "import higgsfield_client" 2>/dev/null; then
   SDK_VER=$(python3 -c "import importlib.metadata; print(importlib.metadata.version('higgsfield-client'))" 2>/dev/null || echo "unknown")
-  echo "  ✓ higgsfield-client installed (version: $SDK_VER)"
+  echo "  ✓ higgsfield-client installed system-wide (version: $SDK_VER)"
+elif PYTHONPATH="$VENV_PATH" python3 -c "import higgsfield_client" 2>/dev/null; then
+  echo "  ✓ higgsfield-client found in .venv-hf (local install)"
 else
-  echo "  ✗ higgsfield-client not found. Run: pip3 install higgsfield-client"
+  echo "  ✗ higgsfield-client not found."
+  echo "    Option A: pip3 install --user higgsfield-client"
+  echo "    Option B: pip3 install --target .venv-hf higgsfield-client  (already done in sandbox)"
   EXIT_CODE=1
 fi
 
-# ── 3. Playwright profile check ──────────────────────────────────────────────
+# ── 3. Playwright profile check (optional — only needed for UI browsing) ─────
 echo ""
-echo "→ Checking Playwright profile..."
+echo "→ Checking Playwright profile (optional)..."
 
 if [ -d "$PROFILE_DIR" ]; then
   echo "  ✓ Profile directory exists: $PROFILE_DIR"
 else
-  echo "  ✗ Profile directory missing. Run: bash scripts/higgsfield/setup-playwright.sh"
-  EXIT_CODE=1
+  echo "  ℹ Profile directory missing (not required for API generation)."
+  echo "    Run setup-playwright.sh if you need Higgsfield UI/browser access."
 fi
 
 # ── Summary ──────────────────────────────────────────────────────────────────

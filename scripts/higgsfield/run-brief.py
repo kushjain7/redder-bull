@@ -38,6 +38,11 @@ from typing import Optional
 REPO_ROOT = Path(__file__).resolve().parents[2]
 ENV_PATH = Path(__file__).parent / "higgsfield.local.env"
 
+# Support local pip install target (.venv-hf) when global install isn't available
+_VENV_PATH = REPO_ROOT / ".venv-hf"
+if _VENV_PATH.exists():
+    sys.path.insert(0, str(_VENV_PATH))
+
 # Retry settings
 MAX_RETRIES = 2
 RETRY_DELAY_SECONDS = 15
