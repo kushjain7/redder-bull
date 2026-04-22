@@ -1,0 +1,25 @@
+# System Log
+
+> **Owner:** All agents (Zimmer primary, others append)
+> **Format:** Reverse-chronological. Most recent entry at the top.
+> **Gitignored:** `state/system-log.md` is never committed. This template is.
+
+---
+
+## How to Write an Entry
+
+```
+### [YYYY-MM-DD HH:MM] — [Stage N] [Event summary]
+**Agent:** [Zimmer / Tanmay / Leonardo / Mark / Human]
+- [What happened]
+- [What was produced / decided]
+- [Next action and owner]
+```
+
+---
+
+### [YYYY-MM-DD HH:MM] — Cycle [N] Started
+**Agent:** Zimmer
+- New cycle initiated.
+- Product context loaded from `state/product-context.md`.
+- Next action: Tanmay starts Stage 1 Research.

@@ -1,0 +1,67 @@
+# Product Context
+
+> **Owner:** Human (fill this before starting Cycle 1)
+> **Read by:** All agents at session start
+> **Gitignored:** `state/product-context.md` is never committed. This template is.
+
+---
+
+## Product
+
+- **Name:** [Product / app name]
+- **Tagline:** [One-line value proposition]
+- **URL:** [Landing page URL]
+- **App store URL (if applicable):** [iOS / Android URL]
+- **Product category:** [e.g., SaaS / D2C / EdTech / FinTech]
+
+## What It Does
+
+[2–3 sentences. What problem does it solve? Who uses it? What's the core insight?]
+
+## Target Audience (ICP)
+
+- **Age range:** [e.g., 22–35]
+- **Gender split:** [e.g., 60% female / 40% male]
+- **City tiers:** [Metro / Tier 1 / Tier 2 / Tier 3]
+- **Occupation / lifestyle:** [e.g., salaried professionals, college students]
+- **Primary language:** [Hinglish / Hindi / English]
+- **Key pain point(s):**
+  1. [Pain 1]
+  2. [Pain 2]
+- **Key desire(s):**
+  1. [Desire 1]
+  2. [Desire 2]
+
+## Brand
+
+- **Tone of voice:** [e.g., warm + aspirational / witty + irreverent / authoritative + trustworthy]
+- **Brand colors (hex):**
+  - Primary: `#XXXXXX`
+  - Secondary: `#XXXXXX`
+  - Background: `#XXXXXX`
+  - Text: `#XXXXXX`
+- **Typography:** [e.g., Space Grotesk for display, Inter for body]
+- **Brand assets folder:** `assets/dynamic/brand-assets/` — [describe what's in there]
+
+## Competitors
+
+| Name | URL | What makes them strong | Their weakness |
+|---|---|---|---|
+| [Competitor 1] | [URL] | [Strength] | [Weakness] |
+| [Competitor 2] | [URL] | [Strength] | [Weakness] |
+
+## Pricing
+
+- **Free tier:** [Describe, or "None"]
+- **Paid plans:** [Price(s) — e.g., ₹199/month, ₹1,499/year]
+- **Key pricing hook:** [e.g., "₹199 mein puri kundali" — the line that makes price feel like a steal]
+
+## Key Features (for brief writing)
+
+1. [Feature 1 — one line, plain language]
+2. [Feature 2]
+3. [Feature 3]
+
+## Cycle Notes
+
+[Running notes Zimmer appends here as cycles progress — what worked, what to try next.]

@@ -1,0 +1,46 @@
+# Current Cycle Status
+
+> **Owner:** Zimmer
+> **Updated:** after every stage transition
+> **Gitignored:** `state/current-cycle.md` is never committed. This template is.
+
+---
+
+## Cycle [N] — [Product Name]
+
+**Started:** [YYYY-MM-DD]
+**Current Stage:** [Stage number + name]
+
+---
+
+## Stage Tracker
+
+| Stage | Name | Agent | Status | Notes |
+|---|---|---|---|---|
+| 1 | RESEARCH | Tanmay | ⬜ Pending | |
+| 2 | BRIEF | Tanmay | ⬜ Pending | |
+| 3 | REVIEW-1 | Zimmer | ⬜ Pending | |
+| 3.5 | ASSETS | Human | ⬜ Pending | |
+| 4 | CREATE | Leonardo | ⬜ Pending | |
+| 5 | REVIEW-2 | Zimmer | ⬜ Pending | |
+| 6 | APPROVE | Human | ⬜ Pending | |
+| 7 | DEPLOY | Mark | ⬜ Pending | |
+| 8 | MONITOR | Mark | ⬜ Pending | |
+| 9 | ANALYZE | Zimmer | ⬜ Pending | |
+| 10 | ITERATE | Zimmer | ⬜ Pending | |
+
+Status key: ⬜ Pending · 🔄 In Progress · ✅ Complete · ❌ Blocked
+
+---
+
+## Active Briefs
+
+| Brief ID | Category | Subcategory | Stage | Assigned To |
+|---|---|---|---|---|
+| 001 | [L1] | [L2] | [stage] | [agent] |
+
+---
+
+## Open Blockers
+
+- [ ] [Describe blocker, what's needed, who's waiting]

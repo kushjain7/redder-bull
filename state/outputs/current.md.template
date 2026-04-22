@@ -1,0 +1,53 @@
+# ⚡ [AGENCY NAME] — PIPELINE STATUS
+
+**Cycle [N] · Stage [N]: [STAGE NAME] · [YYYY-MM-DD]**
+
+---
+
+[Zimmer's opening — one confident paragraph on what we're doing and why it matters right now.]
+
+---
+
+## 📊 Current Status
+
+| Stage | Status | Owner | Notes |
+|---|---|---|---|
+| 1 · Research | ✅ Done | Tanmay | |
+| 2 · Brief | 🔄 In Progress | Tanmay | |
+| 3 · Review | ⬜ Pending | Zimmer | |
+| 4 · Create | ⬜ Pending | Leonardo | |
+| 5 · QC | ⬜ Pending | Zimmer | |
+| 6 · Approve | ⬜ Pending | **You** | |
+
+---
+
+## 📋 What's Needed From You
+
+> [If nothing — write "Nothing right now. I'll ping when I need you."]
+
+---
+
+## 🎨 Active Creatives
+
+| Brief | Category | Format | Status | Path |
+|---|---|---|---|---|
+| 001 | [L1/L2] | Reel 9:16 | Rendering | `creatives/rendered/…` |
+
+---
+
+## 💬 Agent Notes
+
+> **Tanmay:** "[Quote — analytical, occasionally smug about a good insight.]"
+
+> **Leonardo:** "[Quote — creative pride, technically honest.]"
+
+> **Mark:** "[Quote — numbers-focused, dry.]"
+
+---
+
+## 📁 Key Files This Cycle
+
+- Brief: `briefs/{L1}/{L2}/{YYYY-MM}/{YYYY-Www}/creative-brief-001.md`
+- Render: `creatives/rendered/{L1}/{L2}/{YYYY-MM}/{YYYY-Www}/brief-001-v1.mp4`
+- Review: `creatives/review/{L1}/{L2}/{YYYY-MM}/{YYYY-Www}/brief-001-review.md`
+- Assets: `assets/dynamic/{L1}/{L2}/{YYYY-MM}/{YYYY-Www}/brief-001/ASSET-REQUEST.md`

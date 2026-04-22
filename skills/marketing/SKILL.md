@@ -11,9 +11,11 @@ You MUST read these files before starting any research or brief work:
 
 **For brief writing (Stage 2):**
 1. `state/product-context.md`
-2. `.agents/skills/copywriting/SKILL.md` — apply these frameworks when writing hooks and copy
-3. `.agents/skills/ad-creative/SKILL.md` — use these patterns for ad structure
-4. Then proceed with the brief template below
+2. `creatives/CATEGORIES.md` — pick a Category (L1) + Subcategory (L2) for every brief
+3. `assets/dynamic/brand-assets/` — existing product UI screenshots, logo, homepage reference (browse before briefing screen-recording / static-visual formats). Exact path is in `state/product-context.md`.
+4. `.agents/skills/copywriting/SKILL.md` — apply these frameworks when writing hooks and copy
+5. `.agents/skills/ad-creative/SKILL.md` — use these patterns for ad structure
+6. Then proceed with the brief template below
 
 **Never write research or briefs using only your training knowledge.** Read the skill files. They contain frameworks that produce better output than defaults.
 
@@ -95,9 +97,14 @@ Collect:
 - `research/audience-insights.md`
 
 ### Files to Write
-- `briefs/creative-brief-001.md` (video — Reels 9:16)
-- `briefs/creative-brief-002.md` (static — Feed 1:1 or carousel)
-- `briefs/creative-brief-003.md` (additional — your choice of format)
+Every brief must be filed by category. Path format:
+`briefs/{category}/{subcategory}/{YYYY-MM}/{YYYY-Www}/creative-brief-{NNN}.md`
+
+- `briefs/{category-L1}/{subcategory-L2}/{YYYY-MM}/{YYYY-Www}/creative-brief-001.md` (video — Reels 9:16)
+- `briefs/{category-L1}/{subcategory-L2}/{YYYY-MM}/{YYYY-Www}/creative-brief-002.md` (static — Feed 1:1 or carousel)
+- `briefs/{category-L1}/{subcategory-L2}/{YYYY-MM}/{YYYY-Www}/creative-brief-003.md` (additional — your choice of format)
+
+Brief IDs are globally sequential (never reset per category). Pick category + subcategory slugs from `creatives/CATEGORIES.md`. If you need a new subcategory, propose it in the brief's `Subcategory` field — Zimmer appends it to CATEGORIES.md at review.
 
 ### Creative Brief Template
 
@@ -107,6 +114,12 @@ Each brief must use this exact structure:
 # Creative Brief [NUMBER]
 **Written by:** Tanmay (Strategist)
 **Date:** [YYYY-MM-DD]
+
+## Category ⚠️ REQUIRED
+- **L1 (category):** [slug from creatives/CATEGORIES.md — e.g. `ugc`, `screen-recording`, `motion-graphics`, `static-visual`, `carousel`]
+- **L2 (subcategory):** [slug from creatives/CATEGORIES.md — e.g. `confessional`, `chat-demo`, `kinetic-typography`, `similar-personalities-card`]
+- **Folder path:** `briefs/{L1}/{L2}/{YYYY-MM}/{YYYY-Www}/creative-brief-{NNN}.md`
+- **Why this category:** [1-line reason this format fits the hook, ICP, and stage of funnel]
 
 ## Ad Format
 [Specify exactly: Reel 9:16 / Feed Post 1:1 / Story 9:16 / Carousel]
@@ -189,12 +202,14 @@ Example for a young urban D2C product targeting 18-28 metro audience:
 - "Kesariya — Arijit Singh" (emotional, works for aspirational products)
 - "Pasoori — Ali Sethi" (cinematic, trending long tail)
 
-### Sound Effects Direction (Leonardo uses `assets/static/sfx/` automatically)
-- **Transition style:** [whoosh-fast / whoosh-soft / swoosh-down / swipe-right]
+### Sound Effects Direction (Leonardo resolves actual filenames via `skills/sfx-heuristics.md`)
+Specify beat types, not filenames. Leonardo maps them to the SFX library automatically.
+- **Transition style:** [whoosh-fast / whoosh-soft / swoosh-down / swipe-right / none]
 - **Text/element entry:** [thud-low / punch-mid / pop-soft / none]
-- **Key moment accents:** [impact-hard for reveal / snare-accent for stats / bass-swell for boss entry]
+- **Key moment accents:** [impact-hard for reveal / snare-accent for stats / bass-swell for boss entry / none]
 - **Ambience layer:** [tech-hum / city-ambience / none]
 - **Overall SFX density:** [minimal — 2-3 / moderate — 5-8 / heavy — continuous]
+- **UGC note:** For UGC-format creatives, NO background music. Max 1 SFX accent per 8s. See `skills/sfx-heuristics.md`.
 
 ## Why This Will Work
 [Reference specific competitor patterns or audience insights.]
@@ -204,6 +219,8 @@ Example for a young urban D2C product targeting 18-28 metro audience:
 ### Brief Quality Checklist
 
 Before submitting briefs to Zimmer, verify every item:
+- [ ] **Category (L1) and Subcategory (L2) are set** and match a slug in `creatives/CATEGORIES.md` (or a new L2 is proposed)
+- [ ] **Brief is saved at** `briefs/{L1}/{L2}/{YYYY-MM}/{YYYY-Www}/creative-brief-{NNN}.md`
 - [ ] Hook is specific enough to execute in exactly 3 seconds
 - [ ] Script is complete (no "[insert Hindi here]" gaps)
 - [ ] Visual direction is specific enough for Leonardo (no vague instructions)
@@ -217,6 +234,10 @@ Before submitting briefs to Zimmer, verify every item:
 - [ ] **Music & SFX Direction section is filled** for all video briefs
 - [ ] **Instagram Trending Music Suggestions section has 3 tracks** with ICP reasoning for all Reels briefs
 - [ ] **SFX direction names match** files in `assets/static/sfx/` (e.g. "whoosh-fast", "thud-low")
+- [ ] **Pacing is tight** — every 2–3 seconds MUST introduce a new visual stimulus. No scene can be static for >3s. Never spec more than 6 words of new body text per beat.
+- [ ] **Reel bottom safe zone** — Important text must be above the bottom 380px (Instagram's caption + button overlay). Never place key visuals or text in the bottom 380px of a 9:16 Reel.
+- [ ] **No slow card reveals** — if the brief requires showing multiple items (cards, stats, badges), spec them appearing ALL AT ONCE (or within 0.5s of each other), not sequentially one by one.
+- [ ] **Bold center callout spec'd** — every information-dense scene (showing data, stats, cards) must have a 4–6 word bold title at center that appears for the first 0.8–1s to anchor the viewer's attention before the data loads
 
 ---
 
@@ -273,3 +294,26 @@ Ready for your review.
 ```
 
 Update `state/system-log.md` with a timestamped entry.
+
+---
+
+## Before Handoff to Zimmer — Checklist
+
+Complete this before marking any stage done:
+
+**Research (Stage 1)**
+- [ ] All three research files written: `research/competitor-analysis.md`, `research/winning-hooks.md`, `research/audience-insights.md`
+- [ ] At least 3 competitors analysed
+- [ ] Hook patterns ranked by frequency
+- [ ] ICP language documented with exact phrases from real people
+
+**Briefs (Stage 2)**
+- [ ] Category (L1) + Subcategory (L2) set for every brief
+- [ ] Brief saved at correct path: `briefs/{L1}/{L2}/{YYYY-MM}/{YYYY-Www}/creative-brief-{NNN}.md`
+- [ ] Hook is specific enough to execute in exactly 3 seconds
+- [ ] Script is complete — no "[insert Hindi here]" gaps
+- [ ] Artifacts Needed section filled (or "None")
+- [ ] Music & SFX Direction section filled — beat types specified, NOT filenames
+- [ ] For UGC category: Music direction says "No BGM" explicitly
+- [ ] Reel bottom safe zone respected in script — no key info in bottom 380px
+- [ ] "Why This Will Work" cites actual research (not generic reasoning)

@@ -68,3 +68,44 @@ yarn-debug.log*
 # Raw ad library data can be large — optionally ignore
 # research/ad-library-data/*.json
 # research/ad-library-data/*.csv
+
+# ── PRODUCT-SPECIFIC CONTENT (never push) ─────────────────────────────────────
+
+# Per-product state (filled by agents; templates live as *.template)
+state/current-cycle.md
+state/system-log.md
+state/product-context.md
+state/outputs/current.md
+state/orchestrator-notes.md
+state/approvals/pending-approval.md
+
+# Per-product research
+research/*.md
+!research/README.md
+
+# Per-product briefs — dated folders only; category .gitkeep scaffolding remains
+briefs/**/20*/
+
+# Per-product review docs — dated folders only
+creatives/review/**/20*/
+
+# Per-product Remotion compositions (live in src/campaigns/, not committed)
+creatives/remotion-project/my-ads/src/campaigns/
+
+# Per-product media in public/ (product logos, b-roll, chat screenshots, scene clips)
+creatives/remotion-project/my-ads/public/iktara*
+creatives/remotion-project/my-ads/public/*_b_roll*
+creatives/remotion-project/my-ads/public/*_B_Roll*
+creatives/remotion-project/my-ads/public/bgm*
+creatives/remotion-project/my-ads/public/b00*-scene*.mp4
+creatives/remotion-project/my-ads/public/*-chat-*.png
+creatives/remotion-project/my-ads/public/*-answer*.png
+
+# Per-product brand asset folders (may contain spaces in name)
+assets/iktara\ general\ assets/
+"assets/iktara general assets/"
+
+# QC output artefacts (generated at runtime, never committed)
+scripts/qc/frames/
+scripts/qc/qc.json
+scripts/qc/spectrogram.png

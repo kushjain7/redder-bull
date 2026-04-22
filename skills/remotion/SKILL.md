@@ -10,10 +10,13 @@
 
 **Before writing a single line of code, you MUST:**
 1. Read this entire SKILL.md file
-2. Read `state/product-context.md`
-3. Read ALL approved briefs in `briefs/`
-4. Verify every artifact listed in the brief's "Artifacts Needed" section exists in `creatives/remotion-project/my-ads/public/`
-5. Run `python3 tools/beat-analyzer.py <music-file>` if a music file was provided
+2. Read `skills/video-laws.md` — non-negotiable laws for video composition
+3. Read `skills/design-laws.md` — authoritative safe zones and typography minimums
+4. Read `skills/sfx-heuristics.md` — how to pick SFX from the brief's beat types
+5. Read `state/product-context.md`
+6. Read ALL approved briefs in `briefs/`
+7. Verify every artifact listed in the brief's "Artifacts Needed" section exists in `creatives/remotion-project/my-ads/public/`
+8. Run `python3 tools/beat-analyzer.py <music-file>` if a music file was provided
 
 If any asset is missing → **STOP** → write what's missing to `creatives/review/creative-summary.md` → notify Zimmer. Do not substitute or guess.
 
@@ -163,16 +166,40 @@ npx remotion render [CompositionId] --output ../../rendered/[output-name].mp4 --
 
 ### Step 7: Self-Review Before Submitting to Zimmer
 
-Before notifying Zimmer, check your own work:
-- [ ] Video renders without errors
+Before notifying Zimmer, verify every item. This is your gate — only hand off when all pass.
+
+**A. Video Laws (skills/video-laws.md)**
+- [ ] Composition fps === source fps (V1)
+- [ ] `<OffthreadVideo>` used for all video clips — not `<Video>` (V2)
+- [ ] No mid-clip cuts on AI-chained footage — only tail trimming (V3)
+- [ ] No deshake filter applied to AI-generated footage (V4)
+- [ ] Audio levels decided before picture lock; verified with `ffmpeg ebur128` (V5)
+
+**B. Design Laws (skills/design-laws.md)**
+- [ ] SAFE_T = 180, SAFE_B = 380, SAFE_R = 110 — no important content in those zones
+- [ ] Caption text ≥48px with dark pill backing
+- [ ] Graphic overlays ≥62px with backing on mixed BG
+- [ ] Hook/hero headline ≥64px
+- [ ] Phone insert ≥540px wide (if present)
+
+**C. SFX (skills/sfx-heuristics.md)**
+- [ ] SFX chosen from beat types in brief (not guessed)
+- [ ] UGC format: NO BGM, max 1 SFX per 8s
+- [ ] No numpy/scipy generated SFX — real assets only
+
+**D. Render quality**
+- [ ] Renders without errors
 - [ ] All text fits on screen — no overflow, no clipping
 - [ ] Layout is stable — no reflow when animated elements appear
 - [ ] All user-provided assets are used (not substitutes)
-- [ ] BGM plays full duration and fades at the end
-- [ ] SFX are present: whooshes, entry sounds, typing, impacts
-- [ ] No harsh high-frequency sounds
-- [ ] Font sizes are large enough (headlines 56px+ on 1920×1080)
-- [ ] No excessive blank space — content fills the frame
+- [ ] BGM fades at end (if BGM is present)
+- [ ] Native video audio is MUTED on any `<Video>` b-roll component
+
+**E. Run objective QC before handing to Zimmer (optional but recommended)**
+```bash
+bash scripts/qc/probe.sh <output.mp4>
+```
+If probe shows any `"status": "fail"` — fix before notifying Zimmer.
 
 ### Step 8: Write Creative Summary
 
@@ -193,9 +220,12 @@ Update `creatives/review/creative-summary.md`, then notify Zimmer.
 
 ### Safe Zones — CRITICAL
 
+**Authoritative values live in `skills/design-laws.md`. These are reproduced here for quick reference.**
+
 **For 9:16 (Reels/Stories):**
-- Top: **150px reserved** — platform status bar
-- Bottom: **170px reserved** — like/comment buttons, caption
+- Top: **180px reserved** — platform status bar + account name
+- Bottom: **380px reserved** — Instagram's caption, like/comment/share button column, and audio bar
+- Right: **110px reserved** — Instagram's vertical button column
 
 **For 1:1 (Feed):**
 - Top/Bottom: **60px** each side
@@ -219,7 +249,7 @@ Update `creatives/review/creative-summary.md`, then notify Zimmer.
 - **Hindi/Devanagari:** Noto Sans Devanagari — mandatory for Hindi text
 
 ### Animation Rules
-- **Frame rate:** Always **30fps**
+- **Frame rate:** MUST match source video fps (see `skills/video-laws.md` Law V1). For pure motion-graphics with no source video, use **30fps**. For UGC/AI-generated footage, match the source (commonly 24fps).
 - **Springs:** damping 10–18, stiffness 100–200 (snappy, not floaty)
 - **Text reveals:** framesPerLine 12–20 (fast, energetic — never 30+)
 - **Hook (frames 0–90):** High-impact — bold text, strong color contrast, immediate attention grab
@@ -269,18 +299,16 @@ If a brief is unclear or missing information:
 ## Indian Market Creative Checklist
 
 Before submitting creatives to Zimmer for review:
-- [ ] Correct dimensions and aspect ratio
-- [ ] Safe zones respected
-- [ ] All font sizes meet minimums
+- [ ] Correct dimensions and aspect ratio (see `skills/design-laws.md`)
+- [ ] Safe zones respected — SAFE_T=180, SAFE_B=380, SAFE_R=110
+- [ ] All font sizes meet minimums (D3 in `skills/design-laws.md`)
 - [ ] Hook executes in first 3 seconds
-- [ ] Text is readable on mobile
+- [ ] Text is readable on mobile — WCAG 4.5:1 minimum contrast
 - [ ] Brand colors used correctly
 - [ ] CTA clearly visible in safe zone
-- [ ] **BGM present, synced, and fading at end**
-- [ ] **SFX present: whooshes, entry sounds, typing, impacts**
-- [ ] **No high-frequency or harsh sounds**
+- [ ] **BGM and SFX follow `skills/sfx-heuristics.md`** — UGC: no BGM
+- [ ] **Video laws followed** — see `skills/video-laws.md` V1-V5
 - [ ] **All user-provided assets used (no substitutes)**
 - [ ] **No layout reflow or text overflow**
-- [ ] **Content fills the frame (no excessive blank space)**
-- [ ] All renders saved to `creatives/rendered/`
+- [ ] All renders saved to `creatives/rendered/{category}/{subcategory}/{YYYY-MM}/{YYYY-Www}/`
 - [ ] Creative summary written and updated
