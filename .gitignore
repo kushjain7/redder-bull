@@ -81,6 +81,7 @@ state/approvals/pending-approval.md
 
 # Per-product research
 research/*.md
+research/**/*.md
 !research/README.md
 
 # Per-product briefs — dated folders only; category .gitkeep scaffolding remains
@@ -100,6 +101,8 @@ creatives/remotion-project/my-ads/public/bgm*
 creatives/remotion-project/my-ads/public/b00*-scene*.mp4
 creatives/remotion-project/my-ads/public/*-chat-*.png
 creatives/remotion-project/my-ads/public/*-answer*.png
+# Per-product BGM generation scripts
+creatives/remotion-project/my-ads/public/gen_bgm_*.py
 
 # Per-product brand asset folders (may contain spaces in name)
 assets/iktara\ general\ assets/

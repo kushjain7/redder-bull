@@ -1,3 +1,4 @@
+import React from "react";
 import "./index.css";
 import { Composition } from "remotion";
 
@@ -6,6 +7,7 @@ import { ReelTemplate } from "./templates/ReelTemplate";
 import { FeedTemplate } from "./templates/FeedTemplate";
 
 // ── Campaign Compositions ─────────────────────────────────────────────────────
+import { AdBrief005TrendingMeme } from "./campaigns/AdBrief005TrendingMeme";
 // Product-specific compositions live in `src/campaigns/` (gitignored).
 // To add a new campaign:
 //   1. Create src/campaigns/AdBrief[NNN][Format].tsx
@@ -43,6 +45,16 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1080}
         height={1080}
+      />
+
+      {/* ── Brief 005 — Trending Template / Car-Truck Collision Meme ──────────── */}
+      <Composition
+        id="AdBrief005TrendingMeme"
+        component={AdBrief005TrendingMeme}
+        durationInFrames={633}
+        fps={30}
+        width={720}
+        height={1280}
       />
     </>
   );

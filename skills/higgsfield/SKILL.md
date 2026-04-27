@@ -244,6 +244,22 @@ These rules apply to every chunk's `text` field:
 | Hindi-English mix is fine | Match the brief's tone. Don't force pure Hindi or pure English. |
 | No emoji or special characters | These are spoken literally by the TTS inside Higgsfield. |
 
+### ⚠️ DEFAULT RULE — Devanagari for Hindi, Latin for English
+
+**When entering script text in the Higgsfield UGC Factory, you MUST write:**
+- **Hindi words → Devanagari script** (e.g., `जब भी`, `नौकरी`, `मुझे`, `कोई`)
+- **English words → Latin/English script** (e.g., `decision`, `literally`, `AI`, `chart`)
+
+**Never write Hindi in Roman transliteration** (e.g., `jab bhi`, `naukri`) inside Higgsfield — the TTS engine mispronounces or skips transliterated Hindi. Devanagari ensures correct pronunciation, stress, and natural delivery.
+
+**Example — WRONG:**
+> `Jab bhi mujhe koi bada decision lena hota hai, main atak jaati hoon.`
+
+**Example — CORRECT:**
+> `जब भी मुझे कोई बड़ा decision लेना होता है, main atak jaati hoon.`
+
+This rule applies to ALL Higgsfield UGC Factory inputs, regardless of brief. It is non-negotiable.
+
 ---
 
 ## 8. Playwright MCP — Secondary Path
