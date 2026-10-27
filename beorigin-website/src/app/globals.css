@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --color-ink-950: #05060d;
+  --color-ink-900: #0a0b16;
+  --color-ink-800: #11131f;
+  --color-ink-700: #1a1d2e;
+  --color-ink-600: #2a2e45;
+
+  --color-brand-purple: #8b5cf6;
+  --color-brand-violet: #a78bfa;
+  --color-brand-cyan: #22d3ee;
+  --color-brand-sky: #67e8f9;
+}
+
+:root {
+  color-scheme: dark;
+  --accent-gradient: linear-gradient(120deg, #8b5cf6 0%, #22d3ee 100%);
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-ink-950);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  /* Decorative glows may extend past the viewport; never allow sideways scrolling */
+  overflow-x: clip;
+  background: var(--color-ink-950);
+  color: #e6e8f2;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Offset in-page anchors so the fixed navbar never covers section headings */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+::selection {
+  background: rgb(139 92 246 / 0.45);
+  color: #fff;
+}
+
+@utility text-gradient {
+  background-image: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility bg-accent {
+  background-image: var(--accent-gradient);
+}
+
+/* 1px gradient border via mask, used on cards and the primary button */
+@utility gradient-border {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: var(--accent-gradient);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+/* Faint grid backdrop for the page */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+}
+
+/* Cursor-following spotlight on capability cards (vars set in JS) */
+.spotlight {
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    rgb(139 92 246 / 0.16),
+    rgb(34 211 238 / 0.06) 40%,
+    transparent 70%
+  );
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
+@keyframes typing-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+.typing-dot {
+  animation: typing-dot 1.2s infinite ease-in-out;
+}
+.typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.animate-float-slow {
+  animation: float-slow 8s ease-in-out infinite;
+}
