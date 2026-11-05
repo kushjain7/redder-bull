@@ -42,7 +42,7 @@ const jsonLd = {
   slogan: site.tagline,
   description: site.description,
   url: site.url,
-  email: site.contactEmail,
+  ...(site.contactEmail ? { email: site.contactEmail } : {}),
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

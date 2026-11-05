@@ -33,12 +33,14 @@ export function LegalPage({ title, updated, sections }: LegalPageProps) {
             </section>
           ))}
         </div>
-        <p className="mt-12 text-slate-300">
-          Contact:{" "}
-          <a href={`mailto:${site.contactEmail}`} className="text-brand-sky underline-offset-4 hover:underline">
-            {site.contactEmail}
-          </a>
-        </p>
+        {site.contactEmail ? (
+          <p className="mt-12 text-slate-300">
+            Contact:{" "}
+            <a href={`mailto:${site.contactEmail}`} className="text-brand-sky underline-offset-4 hover:underline">
+              {site.contactEmail}
+            </a>
+          </p>
+        ) : null}
       </main>
       <Footer />
     </>

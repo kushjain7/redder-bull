@@ -1,21 +1,25 @@
 /**
  * ─────────────────────────────────────────────────────────────────────────────
- *  BeOrigin website copy — EDIT ALL TEXT HERE.
+ *  Omicron website copy — EDIT ALL TEXT HERE.
  *  Every section on the site reads from this file. Change a string, save, and
  *  the dev server hot-reloads. No component code needs to change.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
+/**
+ * Deployment settings come from environment variables, set at build time (e.g. in AWS Amplify):
+ *   NEXT_PUBLIC_SITE_URL       your live domain, e.g. https://www.yourdomain.com
+ *   NEXT_PUBLIC_CONTACT_EMAIL  where "Book a Demo" requests are sent
+ * See .env.example. Nothing needs to change in this file.
+ */
 export const site = {
-  name: "BeOrigin",
-  tagline: "Believe, Begin, Become",
-  // TODO: replace with your real address. Used by the demo form (mailto:) and the footer.
-  contactEmail: "your-email@example.com",
-  // TODO: replace with your production domain once deployed (used for SEO + Open Graph URLs).
-  url: "https://www.example.com",
-  title: "BeOrigin | AI knowledge transfer in your expert's own voice",
+  name: "Omicron",
+  tagline: "Knowledge, multiplied.",
+  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ?? "",
+  url: (process.env.NEXT_PUBLIC_SITE_URL?.trim() || "http://localhost:3000").replace(/\/+$/, ""),
+  title: "Omicron | AI knowledge transfer in your expert's own voice",
   description:
-    "BeOrigin captures a subject matter expert's voice and thinking, turns SOPs and documents into narrated interactive modules, and gives every learner a voice tutor they can cross-question live.",
+    "Omicron captures a subject matter expert's voice and thinking, turns SOPs and documents into narrated interactive modules, and gives every learner a voice tutor they can cross-question live.",
   keywords: [
     "knowledge transfer",
     "AI training platform",
@@ -42,13 +46,13 @@ export const nav = {
 
 export const hero = {
   eyebrow: "AI knowledge transfer platform",
-  tagline: "Believe, Begin, Become",
+  tagline: "Knowledge, multiplied.",
   valueProp: "Capture expert knowledge once. Transfer it to everyone, in their own voice.",
   supporting:
-    "BeOrigin clones your expert's voice and reasoning, turns SOPs into narrated interactive modules, and lets every learner cross-question them live.",
+    "Omicron clones your expert's voice and reasoning, turns SOPs into narrated interactive modules, and lets every learner cross-question them live.",
   primaryCta: { label: "Book a Demo", href: "#book-demo" },
   secondaryCta: { label: "See how it works", href: "#how-it-works" },
-  orbLabel: "BeOrigin is speaking...",
+  orbLabel: "Omicron is speaking...",
 };
 
 export const howItWorks = {
@@ -59,7 +63,7 @@ export const howItWorks = {
   steps: [
     {
       title: "Upload SOPs & docs",
-      body: "Drop in manuals, SOPs, slide decks and recordings. BeOrigin reads and structures everything your expert already knows.",
+      body: "Drop in manuals, SOPs, slide decks and recordings. Omicron reads and structures everything your expert already knows.",
       tags: ["Document Parsing", "Speech-to-Text"],
     },
     {
@@ -209,7 +213,7 @@ export const useCases = {
 
 export const team = {
   eyebrow: "Team",
-  title: "The people behind BeOrigin",
+  title: "The people behind Omicron",
   members: [
     { name: "Kush Jain", role: "Co-founder & CEO", school: "IIT Delhi", initials: "KJ", linkedin: "" },
     { name: "Om Patil", role: "Co-founder & CTO", school: "IIT Delhi", initials: "OP", linkedin: "" },
@@ -236,7 +240,7 @@ export const bookDemo = {
     body: "Your email app should have opened with your request. Hit send and we'll be in touch within one business day.",
     reset: "Send another request",
   },
-  emailSubject: "BeOrigin demo request",
+  emailSubject: "Omicron demo request",
 };
 
 export const footer = {
@@ -245,13 +249,13 @@ export const footer = {
     { label: "Privacy", href: "/privacy/" },
     { label: "Terms", href: "/terms/" },
   ],
-  copyright: "© 2026 BeOrigin. All rights reserved.",
+  copyright: "© 2026 Omicron. All rights reserved.",
 };
 
 export const legal = {
   privacy: {
     title: "Privacy Policy",
-    updated: "Last updated: October 2026",
+    updated: "Last updated: November 2026",
     sections: [
       {
         heading: "Placeholder",
@@ -267,13 +271,13 @@ export const legal = {
       },
       {
         heading: "Contact",
-        body: "Questions about privacy? Email us at the address in the footer.",
+        body: "Questions about privacy? Reach us through the Book a Demo form on our homepage.",
       },
     ],
   },
   terms: {
     title: "Terms of Use",
-    updated: "Last updated: October 2026",
+    updated: "Last updated: November 2026",
     sections: [
       {
         heading: "Placeholder",
@@ -281,15 +285,15 @@ export const legal = {
       },
       {
         heading: "Use of this site",
-        body: "Content on this website is provided for general information about BeOrigin and its products.",
+        body: "Content on this website is provided for general information about Omicron and its products.",
       },
       {
         heading: "Intellectual property",
-        body: "The BeOrigin name, logo and site content belong to BeOrigin unless stated otherwise.",
+        body: "The Omicron name, logo and site content belong to Omicron unless stated otherwise.",
       },
       {
         heading: "Contact",
-        body: "Questions about these terms? Email us at the address in the footer.",
+        body: "Questions about these terms? Reach us through the Book a Demo form on our homepage.",
       },
     ],
   },

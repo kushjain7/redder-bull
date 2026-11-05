@@ -12,7 +12,8 @@ export type DemoRequest = {
  * THE ONLY PLACE THE DEMO FORM SENDS DATA.
  *
  * Right now it opens the visitor's email app with a pre-filled message to
- * `site.contactEmail` (set in src/content.ts). To switch to a real form service
+ * `site.contactEmail`, which comes from the NEXT_PUBLIC_CONTACT_EMAIL environment
+ * variable at build time (see .env.example). To switch to a real form service
  * (Formspree, Web3Forms, AWS API Gateway + Lambda, HubSpot...), replace the body
  * of this function with a `fetch()` call and keep the same signature, e.g.:
  *
@@ -26,6 +27,10 @@ export type DemoRequest = {
  * Throw an Error to show its message in the form; resolve to show the success state.
  */
 export async function submitDemoRequest(data: DemoRequest): Promise<void> {
+  if (!site.contactEmail) {
+    throw new Error("Online demo booking is being set up. Please check back shortly.");
+  }
+
   const body = [
     `Name: ${data.name}`,
     `Work email: ${data.email}`,

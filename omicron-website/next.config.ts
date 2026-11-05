@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
   images: { unoptimized: true },
   reactStrictMode: true,
   poweredByHeader: false,
+  // Next.js writes an AGENTS.md during `next dev` unless this is off
+  agentRules: false,
 };
 
 export default nextConfig;

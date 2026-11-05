@@ -29,15 +29,17 @@ export function Footer() {
         </nav>
 
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-slate-400">Contact</p>
-          <a
-            href={`mailto:${site.contactEmail}`}
-            className="mt-4 inline-flex items-center gap-2 text-sm text-slate-300 hover:text-white"
-          >
-            <Icon name="mail" className="h-4 w-4" />
-            {site.contactEmail}
-          </a>
-          <ul className="mt-6 flex gap-5">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-slate-400">{site.contactEmail ? "Contact" : "Legal"}</p>
+          {site.contactEmail ? (
+            <a
+              href={`mailto:${site.contactEmail}`}
+              className="mt-4 inline-flex items-center gap-2 text-sm text-slate-300 hover:text-white"
+            >
+              <Icon name="mail" className="h-4 w-4" />
+              {site.contactEmail}
+            </a>
+          ) : null}
+          <ul className={`flex gap-5 ${site.contactEmail ? "mt-6" : "mt-4"}`}>
             {footer.links.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="text-sm text-slate-400 hover:text-white">

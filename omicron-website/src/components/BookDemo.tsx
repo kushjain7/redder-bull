@@ -67,12 +67,14 @@ export function BookDemo() {
                   </span>
                   <h3 className="mt-6 text-2xl font-semibold text-white">{bookDemo.success.title}</h3>
                   <p className="mt-3 max-w-md text-slate-400">{bookDemo.success.body}</p>
-                  <p className="mt-4 text-sm text-slate-400">
-                    Email didn&apos;t open? Write to{" "}
-                    <a className="text-brand-sky underline-offset-4 hover:underline" href={`mailto:${site.contactEmail}`}>
-                      {site.contactEmail}
-                    </a>
-                  </p>
+                  {site.contactEmail ? (
+                    <p className="mt-4 text-sm text-slate-400">
+                      Email didn&apos;t open? Write to{" "}
+                      <a className="text-brand-sky underline-offset-4 hover:underline" href={`mailto:${site.contactEmail}`}>
+                        {site.contactEmail}
+                      </a>
+                    </p>
+                  ) : null}
                   <button
                     type="button"
                     onClick={() => setStatus("idle")}
